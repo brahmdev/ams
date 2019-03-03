@@ -29,7 +29,7 @@ CREATE TABLE `authorities` (
   PRIMARY KEY (`id`),
   KEY `fk_authorities_1_idx` (`username`),
   CONSTRAINT `fk_authorities_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `authorities` (
 
 LOCK TABLES `authorities` WRITE;
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES (1,'dev','ROLE_ADMIN'),(2,'kalpana','ROLE_USER');
+INSERT INTO `authorities` VALUES (1,'dev','ROLE_ADMIN'),(2,'kalpana','ROLE_USER'),(5,'rahul','ROLE_ADMIN');
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,10 +77,10 @@ DROP TABLE IF EXISTS `board`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `board` (
-  `board_id` int(11) NOT NULL,
+  `board_id` int(11) NOT NULL AUTO_INCREMENT,
   `board_name` varchar(45) NOT NULL,
   PRIMARY KEY (`board_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,6 +89,7 @@ CREATE TABLE `board` (
 
 LOCK TABLES `board` WRITE;
 /*!40000 ALTER TABLE `board` DISABLE KEYS */;
+INSERT INTO `board` VALUES (1,'SSC'),(2,'CBSE'),(3,'ICSE');
 /*!40000 ALTER TABLE `board` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,7 +255,7 @@ DROP TABLE IF EXISTS `question_papers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `question_papers` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `board_id` int(11) NOT NULL,
   `content` tinyblob NOT NULL,
   `created` date DEFAULT NULL,
@@ -266,9 +267,10 @@ CREATE TABLE `question_papers` (
   PRIMARY KEY (`id`),
   KEY `FKhpu7f6flf00xmsgcn2bkta4jf` (`standard_id`),
   KEY `FKco5rgrmydtkr9ltg0ca6h39bb` (`subject_id`),
-  CONSTRAINT `FKachs54a6oi42d176h6nlspve0` FOREIGN KEY (`id`) REFERENCES `board` (`board_id`),
+  KEY `fk_question_papers_1_idx` (`board_id`),
   CONSTRAINT `FKco5rgrmydtkr9ltg0ca6h39bb` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`),
-  CONSTRAINT `FKhpu7f6flf00xmsgcn2bkta4jf` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`)
+  CONSTRAINT `FKhpu7f6flf00xmsgcn2bkta4jf` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`),
+  CONSTRAINT `fk_question_papers_1` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -295,9 +297,8 @@ CREATE TABLE `standard` (
   `language` varchar(45) NOT NULL,
   `fees` int(11) DEFAULT NULL,
   PRIMARY KEY (`standard_id`),
-  KEY `fk_board_id_idx` (`board_id`),
-  CONSTRAINT `FK5wl4gkuk3sw3ryd7r7sackm98` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`),
-  CONSTRAINT `fk_board_id` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_standard_1_idx` (`board_id`),
+  CONSTRAINT `fk_standard_1` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -479,7 +480,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('dev','$2a$10$7VukYv1DmXXD94LXHgz2nOrhXLi8qETD2NS.qSOqDB.bGeCsfoxxi',1,'pandey.dev25@gmail.com',NULL,'brahmdev','pandey',NULL,'stockholm'),('kalpana','$2a$10$Rz2lIjnJnVvubjFqzSCvdeITJgML6OOU5ne/WnwXSFLFS0jDVnrvO',1,NULL,NULL,'kalpana','pandey',NULL,'stockholm');
+INSERT INTO `users` VALUES ('dev','$2a$10$7VukYv1DmXXD94LXHgz2nOrhXLi8qETD2NS.qSOqDB.bGeCsfoxxi',1,'pandey.dev25@gmail.com',NULL,'brahmdev','pandey',NULL,'stockholm'),('kalpana','$2a$10$Rz2lIjnJnVvubjFqzSCvdeITJgML6OOU5ne/WnwXSFLFS0jDVnrvO',1,NULL,NULL,'kalpana','pandey',NULL,'stockholm'),('rahul','$2a$10$9jK0QWHIKcLeWThfFw2XaO3yGl41LPkhRjXEQAkLyoC5C6OFgSqgW',1,'',NULL,'rahul','singh',NULL,'mumbai');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -492,4 +493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-03 17:19:56
+-- Dump completed on 2019-03-03 19:38:25

@@ -4,14 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.sql.DataSource;
 
 @Configuration
+@EnableWebSecurity
 public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    DataSource dataSource;
 
     // roles admin allow to access /admin/**
     // roles user allow to access /user/**
@@ -22,20 +27,23 @@ public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/about").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER")
+                .antMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/v1/user/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
-                /*.and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)*/;
+                .and()
+                .httpBasic();
     }
 
-    // create two users, admin and user
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and()
-                .withUser("admin").password("password").roles("ADMIN");
+        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(new BCryptPasswordEncoder());
+
+    }
+
+    //Enable jdbc authentication
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource);
     }
 }

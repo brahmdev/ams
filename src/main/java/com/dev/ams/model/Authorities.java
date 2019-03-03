@@ -2,6 +2,8 @@ package com.dev.ams.model;
 // Generated Mar 3, 2019, 11:29:41 AM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -16,6 +18,8 @@ public class Authorities implements java.io.Serializable {
 
 
     private String id;
+
+    @JsonBackReference(value="authority")
     private Users users;
     private String authority;
 

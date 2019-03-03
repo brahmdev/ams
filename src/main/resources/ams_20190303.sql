@@ -50,13 +50,13 @@ DROP TABLE IF EXISTS `base_calendar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `base_calendar` (
-  `base_calendar_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `month` varchar(45) NOT NULL,
   `day` varchar(45) NOT NULL,
   `year` varchar(45) NOT NULL,
   `holiday_name` varchar(45) NOT NULL,
   `holiday_description` varchar(45) NOT NULL,
-  PRIMARY KEY (`base_calendar_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,22 +101,19 @@ DROP TABLE IF EXISTS `chapter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `chapter` (
-  `chapter_id` int(11) NOT NULL,
-  `chapter_number` varchar(45) NOT NULL,
-  `chapter_name` varchar(45) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
   `subject_id` int(11) NOT NULL,
   `start_date` date DEFAULT NULL,
   `finish_date` date DEFAULT NULL,
   `time_taken` int(11) DEFAULT NULL,
   `status` varchar(45) NOT NULL,
   `taken_by` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`chapter_id`),
-  KEY `fk_chapter_subjects_idx` (`subject_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_chapter_teacher_id_idx` (`taken_by`),
-  CONSTRAINT `FK1ud8idx7x6ut5lmxuoy8dl3yh` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`),
-  CONSTRAINT `FK4auh2qsus6g45pvorun4c9o5p` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`),
-  CONSTRAINT `FK625ean2i3gwopuaojiecxitlu` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`),
-  CONSTRAINT `fk_chapter_subjects` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_chapter_subject_id_idx` (`subject_id`),
+  CONSTRAINT `fk_chapter_subject_id` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_chapter_teacher_id` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,7 +135,7 @@ DROP TABLE IF EXISTS `class_calendar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `class_calendar` (
-  `class_calendar_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `month` varchar(45) NOT NULL,
   `day` varchar(45) NOT NULL,
   `year` varchar(45) NOT NULL,
@@ -146,10 +143,9 @@ CREATE TABLE `class_calendar` (
   `event_name` varchar(45) NOT NULL,
   `event_description` varchar(45) NOT NULL,
   `event_type` varchar(45) NOT NULL,
-  PRIMARY KEY (`class_calendar_id`),
-  KEY `fk_class_level_type_id_idx` (`standard_id`),
-  CONSTRAINT `FKoquabacm8nqi4932jgmde27qf` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`),
-  CONSTRAINT `fk_calendar_class_level_type_id` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`),
+  KEY `fk_class_calendar_1_idx` (`standard_id`),
+  CONSTRAINT `fk_class_calendar_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -170,14 +166,14 @@ DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `feedback` (
-  `feedback_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `comments` varchar(45) DEFAULT NULL,
   `given_by` varchar(45) NOT NULL,
   `given_to` varchar(45) NOT NULL,
   `given_on` int(11) NOT NULL,
   `rating` varchar(45) NOT NULL,
   `feedback_type` varchar(45) NOT NULL,
-  PRIMARY KEY (`feedback_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_feedback_given_to_idx` (`given_to`),
   KEY `fk_feedback_given_by_idx` (`given_by`),
   CONSTRAINT `fk_feedback_1` FOREIGN KEY (`given_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -223,17 +219,17 @@ DROP TABLE IF EXISTS `lecture_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lecture_schedule` (
-  `lecture_schedule_id` int(11) NOT NULL,
-  `class_level_type_id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `standard_id` int(11) DEFAULT NULL,
   `lecture_datetime` varchar(45) DEFAULT NULL,
   `subject_id` int(11) DEFAULT NULL,
   `taken_by` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`lecture_schedule_id`),
-  KEY `fk_ls_class_level_type_id_idx` (`class_level_type_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_ls_taken_by_idx` (`taken_by`),
-  CONSTRAINT `FKpcs7v2nj8e2t2iq2t1er2jjuk` FOREIGN KEY (`class_level_type_id`) REFERENCES `standard` (`standard_id`),
-  CONSTRAINT `FKra0a5dgtj09a86fsio2tr3l6i` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`),
-  CONSTRAINT `fk_ls_class_level_type_id` FOREIGN KEY (`class_level_type_id`) REFERENCES `standard` (`standard_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_lecture_schedule_standard_idx` (`standard_id`),
+  KEY `fk_lecture_schedule_subject_idx` (`subject_id`),
+  CONSTRAINT `fk_lecture_schedule_standard` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lecture_schedule_subject` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ls_taken_by` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -265,12 +261,12 @@ CREATE TABLE `question_papers` (
   `standard_id` int(11) NOT NULL,
   `subject_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKhpu7f6flf00xmsgcn2bkta4jf` (`standard_id`),
-  KEY `FKco5rgrmydtkr9ltg0ca6h39bb` (`subject_id`),
   KEY `fk_question_papers_1_idx` (`board_id`),
-  CONSTRAINT `FKco5rgrmydtkr9ltg0ca6h39bb` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`),
-  CONSTRAINT `FKhpu7f6flf00xmsgcn2bkta4jf` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`),
-  CONSTRAINT `fk_question_papers_1` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_question_papers_subject_idx` (`subject_id`),
+  KEY `fk_question_papers_1_idx1` (`standard_id`),
+  CONSTRAINT `fk_question_papers_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_question_papers_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_question_papers_subject` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -291,12 +287,12 @@ DROP TABLE IF EXISTS `standard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `standard` (
-  `standard_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `board_id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `language` varchar(45) NOT NULL,
   `fees` int(11) DEFAULT NULL,
-  PRIMARY KEY (`standard_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_standard_1_idx` (`board_id`),
   CONSTRAINT `fk_standard_1` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -319,16 +315,14 @@ DROP TABLE IF EXISTS `student_standard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_standard` (
-  `student_detail_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` varchar(45) NOT NULL,
   `standard_id` int(11) NOT NULL,
-  PRIMARY KEY (`student_detail_id`),
-  KEY `fk_class_level_type_id_idx` (`standard_id`),
-  KEY `fk_student_detail_student_id_idx` (`student_id`),
-  CONSTRAINT `FK1a9aforw4q7956bs05tdqcymp` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`),
-  CONSTRAINT `FK6vql4e7f8bnqo6ehmi6gbhq2f` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`),
-  CONSTRAINT `fk_class_level_type_id` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`standard_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_student_detail_student_id` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`),
+  KEY `fk_student_standard_1_idx` (`standard_id`),
+  KEY `fk_student_standard_2_idx` (`student_id`),
+  CONSTRAINT `fk_student_standard_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_student_standard_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -349,13 +343,12 @@ DROP TABLE IF EXISTS `subject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subject` (
-  `subject_id` int(11) NOT NULL,
-  `subject_name` varchar(45) DEFAULT NULL,
-  `class_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`subject_id`),
-  KEY `fk_sub_class_level_type_id_idx` (`class_id`),
-  CONSTRAINT `FKdu36t2tvnik6uxe9ud2at2t03` FOREIGN KEY (`class_id`) REFERENCES `standard` (`standard_id`),
-  CONSTRAINT `fk_sub_class_id` FOREIGN KEY (`class_id`) REFERENCES `standard` (`standard_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `standard_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_subject_1_idx` (`standard_id`),
+  CONSTRAINT `fk_subject_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -376,16 +369,14 @@ DROP TABLE IF EXISTS `take_up_defaulter_calendar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `take_up_defaulter_calendar` (
-  `defaulter_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` varchar(45) NOT NULL,
   `class_calendar_id` int(11) NOT NULL,
-  PRIMARY KEY (`defaulter_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_defaulter_class_calendar_id_idx` (`class_calendar_id`),
   KEY `fk_defaulter_student_id_idx` (`student_id`),
-  CONSTRAINT `FK4tdvqco4igke20dhu9uhcgf1w` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`class_calendar_id`),
-  CONSTRAINT `FKsnrib00pofeh30nhykkcj1xlw` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`),
-  CONSTRAINT `fk_defaulter_class_calendar_id` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`class_calendar_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_defaulter_student_id` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_defaulter_student_id` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_take_up_defaulter_calendar_1` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -406,16 +397,17 @@ DROP TABLE IF EXISTS `test_result`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test_result` (
-  `test_result_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `student_id` varchar(45) DEFAULT NULL,
   `marks_obtained` int(11) DEFAULT NULL,
   `out_of` int(11) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `class_calendar_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`test_result_id`),
-  KEY `fk_test_result_class_calendar_id_idx` (`class_calendar_id`),
-  CONSTRAINT `FKjrn4epxg1o085y9nlic9ji12v` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`class_calendar_id`),
-  CONSTRAINT `fk_test_result_class_calendar_id` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`class_calendar_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`id`),
+  KEY `fk_test_result_1_idx` (`class_calendar_id`),
+  KEY `fk_test_result_2_idx` (`student_id`),
+  CONSTRAINT `fk_test_result_1` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_test_result_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -493,4 +485,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-03 19:38:25
+-- Dump completed on 2019-03-03 20:19:25

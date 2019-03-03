@@ -1,6 +1,8 @@
 package com.dev.ams.model;
-// Generated Mar 3, 2019, 7:04:27 PM by Hibernate Tools 3.2.2.GA
+// Generated Mar 3, 2019, 8:14:57 PM by Hibernate Tools 3.2.2.GA
 
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +29,11 @@ public class Board implements java.io.Serializable {
 
     private Integer boardId;
     private String boardName;
+
+    @JsonManagedReference(value="questionPaper-board")
     private Set<QuestionPapers> questionPaperses = new HashSet<QuestionPapers>(0);
+
+    @JsonManagedReference(value="standard-board")
     private Set<Standard> standards = new HashSet<Standard>(0);
 
     public Board() {

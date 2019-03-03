@@ -1,5 +1,7 @@
-package com.dev.ams.repository;
+package com.dev.ams.resource;
 
+import com.dev.ams.model.Standard;
+import com.dev.ams.repository.StandardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,31 +14,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/admin/users")
+@RequestMapping("/api/v1/admin/standards")
 public class StandardResource {
 
     @Autowired
-    UserRepository userRepository;
+    StandardRepository standardRepository;
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public Optional<Users> getUser(@PathVariable String username) {
-        return userRepository.findById(username);
+    @RequestMapping(value = "/{standardName}", method = RequestMethod.GET)
+    public Optional<Standard> getStandard(@PathVariable String standardName) {
+        return standardRepository.findByStandardName(standardName);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Iterable<Users> getAllUsers() {
-        return userRepository.findAll();
+    public Iterable<Standard> getAllStandard() {
+        return standardRepository.findAll();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Users saveOrUpdateUser(@RequestBody Users user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return userRepository.save(user);
+    public Standard saveOrUpdateStandard(@RequestBody Standard standard) {
+        return standardRepository.save(standard);
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable String username) {
-        userRepository.deleteById(username);
+    @RequestMapping(value = "/{standardName}", method = RequestMethod.DELETE)
+    public void deleteStandard(@PathVariable String standardName) {
+        standardRepository.deleteByStandardName(standardName);
     }
 }

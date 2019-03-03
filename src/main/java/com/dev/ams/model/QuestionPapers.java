@@ -1,6 +1,8 @@
 package com.dev.ams.model;
-// Generated Mar 3, 2019, 7:04:27 PM by Hibernate Tools 3.2.2.GA
+// Generated Mar 3, 2019, 8:14:57 PM by Hibernate Tools 3.2.2.GA
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -27,9 +29,13 @@ public class QuestionPapers implements java.io.Serializable {
 
 
     private Integer id;
+
+    @JsonBackReference(value="questionPaper-board")
     private Board board;
-    private Standard standard;
     private Subject subject;
+
+    @JsonBackReference(value="questionPaper")
+    private Standard standard;
     private byte[] content;
     private Date created;
     private String createdBy;
@@ -40,18 +46,18 @@ public class QuestionPapers implements java.io.Serializable {
     }
 
 
-    public QuestionPapers(Board board, Standard standard, Subject subject, byte[] content, String paperName) {
+    public QuestionPapers(Board board, Subject subject, Standard standard, byte[] content, String paperName) {
         this.board = board;
-        this.standard = standard;
         this.subject = subject;
+        this.standard = standard;
         this.content = content;
         this.paperName = paperName;
     }
 
-    public QuestionPapers(Board board, Standard standard, Subject subject, byte[] content, Date created, String createdBy, String paperName, Date updated) {
+    public QuestionPapers(Board board, Subject subject, Standard standard, byte[] content, Date created, String createdBy, String paperName, Date updated) {
         this.board = board;
-        this.standard = standard;
         this.subject = subject;
+        this.standard = standard;
         this.content = content;
         this.created = created;
         this.createdBy = createdBy;
@@ -81,16 +87,6 @@ public class QuestionPapers implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_id", nullable = false)
-    public Standard getStandard() {
-        return this.standard;
-    }
-
-    public void setStandard(Standard standard) {
-        this.standard = standard;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
     public Subject getSubject() {
         return this.subject;
@@ -98,6 +94,16 @@ public class QuestionPapers implements java.io.Serializable {
 
     public void setSubject(Subject subject) {
         this.subject = subject;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "standard_id", nullable = false)
+    public Standard getStandard() {
+        return this.standard;
+    }
+
+    public void setStandard(Standard standard) {
+        this.standard = standard;
     }
 
     @Column(name = "content", nullable = false)

@@ -8,13 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Repository
 public interface StandardRepository extends CrudRepository<Standard, String> {
 
     @Query(value = "SELECT s FROM Standard s WHERE s.name = :standardName")
-    public Optional<Standard> findByStandardName(@Param("standardName") String standardName);
+    public Iterable<Standard> findByStandardName(@Param("standardName") String standardName);
 
     @Transactional
     @Modifying

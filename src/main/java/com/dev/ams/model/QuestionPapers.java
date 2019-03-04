@@ -32,6 +32,8 @@ public class QuestionPapers implements java.io.Serializable {
 
     @JsonBackReference(value="questionPaper-board")
     private Board board;
+
+    @JsonBackReference(value="subject-questionPapers")
     private Subject subject;
 
     @JsonBackReference(value="questionPaper")

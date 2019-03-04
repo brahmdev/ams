@@ -3,6 +3,7 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +35,14 @@ public class Subject implements java.io.Serializable {
     @JsonBackReference(value="subject")
     private Standard standard;
     private String name;
+
+    @JsonManagedReference(value="subject-chapter")
     private Set<Chapter> chapters = new HashSet<Chapter>(0);
+
+    @JsonManagedReference(value="subject-questionPapers")
     private Set<QuestionPapers> questionPaperses = new HashSet<QuestionPapers>(0);
+
+    @JsonManagedReference(value="subject-lectureSchedule")
     private Set<LectureSchedule> lectureSchedules = new HashSet<LectureSchedule>(0);
 
     public Subject() {

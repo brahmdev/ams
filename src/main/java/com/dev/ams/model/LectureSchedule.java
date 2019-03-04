@@ -27,6 +27,8 @@ public class LectureSchedule implements java.io.Serializable {
 
     private Integer id;
     private Users users;
+
+    @JsonBackReference(value="subject-lectureSchedule")
     private Subject subject;
 
     @JsonBackReference(value="lectureSchedule")

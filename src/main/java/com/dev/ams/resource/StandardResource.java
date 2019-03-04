@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/v1/admin/standards")
 public class StandardResource {
@@ -21,7 +19,7 @@ public class StandardResource {
     StandardRepository standardRepository;
 
     @RequestMapping(value = "/{standardName}", method = RequestMethod.GET)
-    public Optional<Standard> getStandard(@PathVariable String standardName) {
+    public Iterable<Standard> getStandard(@PathVariable String standardName) {
         return standardRepository.findByStandardName(standardName);
     }
 
@@ -40,4 +38,6 @@ public class StandardResource {
     public void deleteStandard(@PathVariable String standardName) {
         standardRepository.deleteByStandardName(standardName);
     }
+
+    //TODO need to write an endpoint which will accept standard name, board name and language to return exact one standard detail
 }

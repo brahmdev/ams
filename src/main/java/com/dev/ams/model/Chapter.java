@@ -2,6 +2,8 @@ package com.dev.ams.model;
 // Generated Mar 3, 2019, 8:14:57 PM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +30,8 @@ public class Chapter implements java.io.Serializable {
 
     private Integer id;
     private Users users;
+
+    @JsonBackReference(value="subject-chapter")
     private Subject subject;
     private String number;
     private String name;

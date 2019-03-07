@@ -32,25 +32,16 @@ public class Standard implements java.io.Serializable {
 
     private Integer id;
 
-    @JsonBackReference(value="standard-board")
+    @JsonBackReference(value = "standard-board")
     private Board board;
     private String name;
     private String language;
     private Integer fees;
 
-    @JsonManagedReference(value="questionPaper")
-    private Set<QuestionPapers> questionPaperses = new HashSet<QuestionPapers>(0);
-
-    @JsonManagedReference(value="studentStandard")
+    @JsonManagedReference(value = "studentStandard")
     private Set<StudentStandard> studentStandards = new HashSet<StudentStandard>(0);
 
-    @JsonManagedReference(value="lectureSchedule")
-    private Set<LectureSchedule> lectureSchedules = new HashSet<LectureSchedule>(0);
-
-    @JsonManagedReference(value="classCalendar")
-    private Set<ClassCalendar> classCalendars = new HashSet<ClassCalendar>(0);
-
-    @JsonManagedReference(value="subject")
+    @JsonManagedReference(value = "subject")
     private Set<Subject> subjects = new HashSet<Subject>(0);
 
     public Standard() {
@@ -63,15 +54,12 @@ public class Standard implements java.io.Serializable {
         this.language = language;
     }
 
-    public Standard(Board board, String name, String language, Integer fees, Set<QuestionPapers> questionPaperses, Set<StudentStandard> studentStandards, Set<LectureSchedule> lectureSchedules, Set<ClassCalendar> classCalendars, Set<Subject> subjects) {
+    public Standard(Board board, String name, String language, Integer fees, Set<StudentStandard> studentStandards, Set<Subject> subjects) {
         this.board = board;
         this.name = name;
         this.language = language;
         this.fees = fees;
-        this.questionPaperses = questionPaperses;
         this.studentStandards = studentStandards;
-        this.lectureSchedules = lectureSchedules;
-        this.classCalendars = classCalendars;
         this.subjects = subjects;
     }
 
@@ -124,39 +112,12 @@ public class Standard implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
-    public Set<QuestionPapers> getQuestionPaperses() {
-        return this.questionPaperses;
-    }
-
-    public void setQuestionPaperses(Set<QuestionPapers> questionPaperses) {
-        this.questionPaperses = questionPaperses;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
     public Set<StudentStandard> getStudentStandards() {
         return this.studentStandards;
     }
 
     public void setStudentStandards(Set<StudentStandard> studentStandards) {
         this.studentStandards = studentStandards;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
-    public Set<LectureSchedule> getLectureSchedules() {
-        return this.lectureSchedules;
-    }
-
-    public void setLectureSchedules(Set<LectureSchedule> lectureSchedules) {
-        this.lectureSchedules = lectureSchedules;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
-    public Set<ClassCalendar> getClassCalendars() {
-        return this.classCalendars;
-    }
-
-    public void setClassCalendars(Set<ClassCalendar> classCalendars) {
-        this.classCalendars = classCalendars;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")

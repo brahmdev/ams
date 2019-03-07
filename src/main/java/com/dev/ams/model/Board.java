@@ -30,9 +30,6 @@ public class Board implements java.io.Serializable {
     private Integer boardId;
     private String boardName;
 
-    @JsonManagedReference(value="questionPaper-board")
-    private Set<QuestionPapers> questionPaperses = new HashSet<QuestionPapers>(0);
-
     @JsonManagedReference(value="standard-board")
     private Set<Standard> standards = new HashSet<Standard>(0);
 
@@ -44,9 +41,8 @@ public class Board implements java.io.Serializable {
         this.boardName = boardName;
     }
 
-    public Board(String boardName, Set<QuestionPapers> questionPaperses, Set<Standard> standards) {
+    public Board(String boardName, Set<Standard> standards) {
         this.boardName = boardName;
-        this.questionPaperses = questionPaperses;
         this.standards = standards;
     }
 
@@ -68,15 +64,6 @@ public class Board implements java.io.Serializable {
 
     public void setBoardName(String boardName) {
         this.boardName = boardName;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "board")
-    public Set<QuestionPapers> getQuestionPaperses() {
-        return this.questionPaperses;
-    }
-
-    public void setQuestionPaperses(Set<QuestionPapers> questionPaperses) {
-        this.questionPaperses = questionPaperses;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "board")

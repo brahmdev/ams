@@ -1,0 +1,265 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="brahmdev" id="1">
+        <createTable tableName="authorities">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="2">
+        <createTable tableName="board">
+            <column autoIncrement="true" name="board_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="board_name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="3">
+        <createTable tableName="chapter">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="number" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date"/>
+            <column name="finish_date" type="date"/>
+            <column name="time_taken" type="INT"/>
+            <column name="status" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taken_by" type="VARCHAR(45)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="4">
+        <createTable tableName="feedback">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="comments" type="VARCHAR(45)"/>
+            <column name="given_by" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="given_to" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="given_on" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="feedback_type" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="5">
+        <createTable tableName="lecture_schedule">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="subject_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taken_by" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="6">
+        <createTable tableName="question_papers">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="subject_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="TINYBLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="date"/>
+            <column name="created_by" type="VARCHAR(45)"/>
+            <column name="paper_name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="7">
+        <createTable tableName="standard">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="board_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fees" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="8">
+        <createTable tableName="student_standard">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="student_id" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="standard_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="9">
+        <createTable tableName="subject">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)"/>
+            <column name="standard_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="10">
+        <createTable tableName="users">
+            <column name="username" type="VARCHAR(45)">
+                <constraints primaryKey="true" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="enabled" type="TINYINT(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(75)"/>
+            <column name="mobile" type="VARCHAR(10)"/>
+            <column name="firstname" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="VARCHAR(45)"/>
+            <column name="dob" type="date"/>
+            <column name="address" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="brahmdev" id="11">
+        <createIndex indexName="fk_authorities_1_idx" tableName="authorities">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="12">
+        <createIndex indexName="fk_chapter_subject_id_idx" tableName="chapter">
+            <column name="subject_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="13">
+        <createIndex indexName="fk_chapter_teacher_id_idx" tableName="chapter">
+            <column name="taken_by"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="14">
+        <createIndex indexName="fk_feedback_given_by_idx" tableName="feedback">
+            <column name="given_by"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="15">
+        <createIndex indexName="fk_feedback_given_to_idx" tableName="feedback">
+            <column name="given_to"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="16">
+        <createIndex indexName="fk_lecture_schedule_subject_idx" tableName="lecture_schedule">
+            <column name="subject_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="17">
+        <createIndex indexName="fk_ls_taken_by_idx" tableName="lecture_schedule">
+            <column name="taken_by"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="18">
+        <createIndex indexName="fk_question_papers_subject_idx" tableName="question_papers">
+            <column name="subject_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="19">
+        <createIndex indexName="fk_standard_1_idx" tableName="standard">
+            <column name="board_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="20">
+        <createIndex indexName="fk_student_standard_1_idx" tableName="student_standard">
+            <column name="standard_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="21">
+        <createIndex indexName="fk_student_standard_2_idx" tableName="student_standard">
+            <column name="student_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="22">
+        <createIndex indexName="fk_subject_1_idx" tableName="subject">
+            <column name="standard_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="brahmdev" id="23">
+        <addForeignKeyConstraint baseColumnNames="username" baseTableName="authorities" constraintName="fk_authorities_1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="username" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="24">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="chapter" constraintName="fk_chapter_subject_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subject" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="25">
+        <addForeignKeyConstraint baseColumnNames="taken_by" baseTableName="chapter" constraintName="fk_chapter_teacher_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="username" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="26">
+        <addForeignKeyConstraint baseColumnNames="given_by" baseTableName="feedback" constraintName="fk_feedback_1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="username" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="27">
+        <addForeignKeyConstraint baseColumnNames="given_to" baseTableName="feedback" constraintName="fk_feedback_2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="username" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="28">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="lecture_schedule" constraintName="fk_lecture_schedule_subject" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subject" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="29">
+        <addForeignKeyConstraint baseColumnNames="taken_by" baseTableName="lecture_schedule" constraintName="fk_ls_taken_by" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="username" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="30">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="question_papers" constraintName="fk_question_papers_subject" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subject" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="31">
+        <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="standard" constraintName="fk_standard_1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="board_id" referencedTableName="board" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="32">
+        <addForeignKeyConstraint baseColumnNames="standard_id" baseTableName="student_standard" constraintName="fk_student_standard_1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="standard" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="33">
+        <addForeignKeyConstraint baseColumnNames="student_id" baseTableName="student_standard" constraintName="fk_student_standard_2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="username" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="brahmdev" id="34">
+        <addForeignKeyConstraint baseColumnNames="standard_id" baseTableName="subject" constraintName="fk_subject_1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="standard" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

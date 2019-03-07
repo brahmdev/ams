@@ -43,33 +43,6 @@ INSERT INTO `authorities` VALUES (1,'dev','ROLE_ADMIN'),(2,'kalpana','ROLE_USER'
 UNLOCK TABLES;
 
 --
--- Table structure for table `base_calendar`
---
-
-DROP TABLE IF EXISTS `base_calendar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `base_calendar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `month` varchar(45) NOT NULL,
-  `day` varchar(45) NOT NULL,
-  `year` varchar(45) NOT NULL,
-  `holiday_name` varchar(45) NOT NULL,
-  `holiday_description` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `base_calendar`
---
-
-LOCK TABLES `base_calendar` WRITE;
-/*!40000 ALTER TABLE `base_calendar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `base_calendar` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `board`
 --
 
@@ -80,7 +53,7 @@ CREATE TABLE `board` (
   `board_id` int(11) NOT NULL AUTO_INCREMENT,
   `board_name` varchar(45) NOT NULL,
   PRIMARY KEY (`board_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +88,7 @@ CREATE TABLE `chapter` (
   KEY `fk_chapter_subject_id_idx` (`subject_id`),
   CONSTRAINT `fk_chapter_subject_id` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_chapter_teacher_id` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,38 +97,8 @@ CREATE TABLE `chapter` (
 
 LOCK TABLES `chapter` WRITE;
 /*!40000 ALTER TABLE `chapter` DISABLE KEYS */;
+INSERT INTO `chapter` VALUES (1,'1','Evolution of earth',2,NULL,NULL,NULL,'PENDING',NULL),(2,'2','Cell',2,NULL,NULL,NULL,'PENDING',NULL),(3,'1','Elements',2,NULL,NULL,NULL,'PENDING',NULL);
 /*!40000 ALTER TABLE `chapter` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `class_calendar`
---
-
-DROP TABLE IF EXISTS `class_calendar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `class_calendar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `month` varchar(45) NOT NULL,
-  `day` varchar(45) NOT NULL,
-  `year` varchar(45) NOT NULL,
-  `standard_id` int(11) NOT NULL,
-  `event_name` varchar(45) NOT NULL,
-  `event_description` varchar(45) NOT NULL,
-  `event_type` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_class_calendar_1_idx` (`standard_id`),
-  CONSTRAINT `fk_class_calendar_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `class_calendar`
---
-
-LOCK TABLES `class_calendar` WRITE;
-/*!40000 ALTER TABLE `class_calendar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `class_calendar` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -191,27 +134,6 @@ LOCK TABLES `feedback` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `hibernate_sequence`
---
-
-DROP TABLE IF EXISTS `hibernate_sequence`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `hibernate_sequence`
---
-
-LOCK TABLES `hibernate_sequence` WRITE;
-/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `lecture_schedule`
 --
 
@@ -220,15 +142,13 @@ DROP TABLE IF EXISTS `lecture_schedule`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lecture_schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `standard_id` int(11) DEFAULT NULL,
-  `lecture_datetime` varchar(45) DEFAULT NULL,
-  `subject_id` int(11) DEFAULT NULL,
-  `taken_by` varchar(45) DEFAULT NULL,
+  `subject_id` int(11) NOT NULL,
+  `taken_by` varchar(45) NOT NULL,
+  `from` datetime NOT NULL,
+  `to` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ls_taken_by_idx` (`taken_by`),
-  KEY `fk_lecture_schedule_standard_idx` (`standard_id`),
   KEY `fk_lecture_schedule_subject_idx` (`subject_id`),
-  CONSTRAINT `fk_lecture_schedule_standard` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_lecture_schedule_subject` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ls_taken_by` FOREIGN KEY (`taken_by`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -252,20 +172,13 @@ DROP TABLE IF EXISTS `question_papers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `question_papers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `board_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
   `content` tinyblob NOT NULL,
   `created` date DEFAULT NULL,
   `created_by` varchar(45) DEFAULT NULL,
   `paper_name` varchar(45) NOT NULL,
-  `updated` date DEFAULT NULL,
-  `standard_id` int(11) NOT NULL,
-  `subject_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_question_papers_1_idx` (`board_id`),
   KEY `fk_question_papers_subject_idx` (`subject_id`),
-  KEY `fk_question_papers_1_idx1` (`standard_id`),
-  CONSTRAINT `fk_question_papers_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_question_papers_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_question_papers_subject` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -295,7 +208,7 @@ CREATE TABLE `standard` (
   PRIMARY KEY (`id`),
   KEY `fk_standard_1_idx` (`board_id`),
   CONSTRAINT `fk_standard_1` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -304,6 +217,7 @@ CREATE TABLE `standard` (
 
 LOCK TABLES `standard` WRITE;
 /*!40000 ALTER TABLE `standard` DISABLE KEYS */;
+INSERT INTO `standard` VALUES (1,1,'8th','HINDI',5000),(2,1,'9th','HINDI',5000),(3,1,'10th','HINDI',5000);
 /*!40000 ALTER TABLE `standard` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +263,7 @@ CREATE TABLE `subject` (
   PRIMARY KEY (`id`),
   KEY `fk_subject_1_idx` (`standard_id`),
   CONSTRAINT `fk_subject_1` FOREIGN KEY (`standard_id`) REFERENCES `standard` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -358,66 +272,8 @@ CREATE TABLE `subject` (
 
 LOCK TABLES `subject` WRITE;
 /*!40000 ALTER TABLE `subject` DISABLE KEYS */;
+INSERT INTO `subject` VALUES (1,'Science-I',1),(2,'Science-II',1);
 /*!40000 ALTER TABLE `subject` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `take_up_defaulter_calendar`
---
-
-DROP TABLE IF EXISTS `take_up_defaulter_calendar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `take_up_defaulter_calendar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_id` varchar(45) NOT NULL,
-  `class_calendar_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_defaulter_class_calendar_id_idx` (`class_calendar_id`),
-  KEY `fk_defaulter_student_id_idx` (`student_id`),
-  CONSTRAINT `fk_defaulter_student_id` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_take_up_defaulter_calendar_1` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `take_up_defaulter_calendar`
---
-
-LOCK TABLES `take_up_defaulter_calendar` WRITE;
-/*!40000 ALTER TABLE `take_up_defaulter_calendar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `take_up_defaulter_calendar` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `test_result`
---
-
-DROP TABLE IF EXISTS `test_result`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `test_result` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_id` varchar(45) DEFAULT NULL,
-  `marks_obtained` int(11) DEFAULT NULL,
-  `out_of` int(11) DEFAULT NULL,
-  `status` varchar(45) DEFAULT NULL,
-  `class_calendar_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_test_result_1_idx` (`class_calendar_id`),
-  KEY `fk_test_result_2_idx` (`student_id`),
-  CONSTRAINT `fk_test_result_1` FOREIGN KEY (`class_calendar_id`) REFERENCES `class_calendar` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_test_result_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `test_result`
---
-
-LOCK TABLES `test_result` WRITE;
-/*!40000 ALTER TABLE `test_result` DISABLE KEYS */;
-/*!40000 ALTER TABLE `test_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -485,4 +341,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-03 20:19:25
+-- Dump completed on 2019-03-07 21:43:17

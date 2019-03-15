@@ -31,7 +31,7 @@ public class Chapter implements java.io.Serializable {
     private Integer id;
     private Users users;
 
-    @JsonBackReference(value="subject-chapter")
+    @JsonBackReference(value = "subject-chapter")
     private Subject subject;
     private String number;
     private String name;
@@ -39,6 +39,7 @@ public class Chapter implements java.io.Serializable {
     private Date finishDate;
     private Integer timeTaken;
     private String status;
+    private Integer batchId;
 
     public Chapter() {
     }
@@ -51,7 +52,7 @@ public class Chapter implements java.io.Serializable {
         this.status = status;
     }
 
-    public Chapter(Users users, Subject subject, String number, String name, Date startDate, Date finishDate, Integer timeTaken, String status) {
+    public Chapter(Users users, Subject subject, String number, String name, Date startDate, Date finishDate, Integer timeTaken, String status, Integer batchId) {
         this.users = users;
         this.subject = subject;
         this.number = number;
@@ -60,7 +61,9 @@ public class Chapter implements java.io.Serializable {
         this.finishDate = finishDate;
         this.timeTaken = timeTaken;
         this.status = status;
+        this.batchId = batchId;
     }
+
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -149,7 +152,14 @@ public class Chapter implements java.io.Serializable {
         this.status = status;
     }
 
+    @Column(name = "batch_id")
+    public Integer getBatchId() {
+        return this.batchId;
+    }
 
+    public void setBatchId(Integer batchId) {
+        this.batchId = batchId;
+    }
 }
 
 

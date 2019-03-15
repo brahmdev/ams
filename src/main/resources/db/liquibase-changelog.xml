@@ -522,4 +522,23 @@
                                  referencedColumnNames="id"
                                  referencedTableName="student_details"/>
     </changeSet>
+
+    <changeSet id="38" author="brahmdev">
+        <addColumn tableName="lecture_schedule">
+            <column name="day_number" type="INT">
+                <constraints nullable="false"></constraints>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="39" author="brahmdev">
+        <renameColumn newColumnName="start_time"
+                      oldColumnName="from"
+                      columnDataType="time"
+                      tableName="lecture_schedule"/>
+        <renameColumn newColumnName="end_time"
+                      oldColumnName="to"
+                      columnDataType="time"
+                      tableName="lecture_schedule"/>
+    </changeSet>
 </databaseChangeLog>

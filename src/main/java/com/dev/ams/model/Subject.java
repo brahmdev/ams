@@ -32,28 +32,33 @@ public class Subject implements java.io.Serializable {
 
     private Integer id;
 
-    @JsonBackReference(value="subject")
+    @JsonBackReference(value = "subject")
     private Standard standard;
     private String name;
+    private Integer batchId;
 
-    @JsonManagedReference(value="subject-chapter")
+    @JsonManagedReference(value = "subject-chapter")
     private Set<Chapter> chapters = new HashSet<Chapter>(0);
 
-    @JsonManagedReference(value="subject-questionPapers")
+    @JsonManagedReference(value = "subject-questionPapers")
     private Set<QuestionPapers> questionPaperses = new HashSet<QuestionPapers>(0);
 
-    @JsonManagedReference(value="subject-lectureSchedule")
+    @JsonManagedReference(value = "subject-lectureSchedule")
     private Set<LectureSchedule> lectureSchedules = new HashSet<LectureSchedule>(0);
+
+    private Set<Exam> exams = new HashSet<Exam>(0);
 
     public Subject() {
     }
 
-    public Subject(Standard standard, String name, Set<Chapter> chapters, Set<QuestionPapers> questionPaperses, Set<LectureSchedule> lectureSchedules) {
+    public Subject(Standard standard, String name, Integer batchId, Set<Chapter> chapters, Set<QuestionPapers> questionPaperses, Set<LectureSchedule> lectureSchedules, Set<Exam> exams) {
         this.standard = standard;
         this.name = name;
+        this.batchId = batchId;
         this.chapters = chapters;
         this.questionPaperses = questionPaperses;
         this.lectureSchedules = lectureSchedules;
+        this.exams = exams;
     }
 
     @Id
@@ -86,6 +91,15 @@ public class Subject implements java.io.Serializable {
         this.name = name;
     }
 
+    @Column(name = "batch_id")
+    public Integer getBatchId() {
+        return this.batchId;
+    }
+
+    public void setBatchId(Integer batchId) {
+        this.batchId = batchId;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subject")
     public Set<Chapter> getChapters() {
         return this.chapters;
@@ -113,6 +127,14 @@ public class Subject implements java.io.Serializable {
         this.lectureSchedules = lectureSchedules;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subject")
+    public Set<Exam> getExams() {
+        return this.exams;
+    }
+
+    public void setExams(Set<Exam> exams) {
+        this.exams = exams;
+    }
 
 }
 

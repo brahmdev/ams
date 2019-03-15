@@ -38,14 +38,21 @@ public class Users implements java.io.Serializable {
     private String lastname;
     private Date dob;
     private String address;
+    private String type;
 
-    @JsonManagedReference(value="authority")
+    @JsonManagedReference(value = "authority")
     private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
-    private Set<StudentStandard> studentStandards = new HashSet<StudentStandard>(0);
+
+    @JsonManagedReference(value = "lectureSchedules-user")
     private Set<LectureSchedule> lectureSchedules = new HashSet<LectureSchedule>(0);
+    private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
+    private Set<ChapterDetails> chapterDetailses = new HashSet<ChapterDetails>(0);
     private Set<Feedback> feedbacksForGivenBy = new HashSet<Feedback>(0);
     private Set<Chapter> chapters = new HashSet<Chapter>(0);
     private Set<Feedback> feedbacksForGivenTo = new HashSet<Feedback>(0);
+
+    @JsonManagedReference(value = "studentStandards-user")
+    private Set<StudentStandard> studentStandards = new HashSet<StudentStandard>(0);
 
     public Users() {
     }
@@ -58,7 +65,8 @@ public class Users implements java.io.Serializable {
         this.firstname = firstname;
         this.address = address;
     }
-    public Users(String username, String password, byte enabled, String email, String mobile, String firstname, String lastname, Date dob, String address, Set<Authorities> authoritieses, Set<StudentStandard> studentStandards, Set<LectureSchedule> lectureSchedules, Set<Feedback> feedbacksForGivenBy, Set<Chapter> chapters, Set<Feedback> feedbacksForGivenTo) {
+
+    public Users(String username, String password, byte enabled, String email, String mobile, String firstname, String lastname, Date dob, String address, String type, Set<Authorities> authoritieses, Set<LectureSchedule> lectureSchedules, Set<StudentDetails> studentDetailses, Set<ChapterDetails> chapterDetailses, Set<Feedback> feedbacksForGivenBy, Set<Chapter> chapters, Set<Feedback> feedbacksForGivenTo, Set<StudentStandard> studentStandards) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
@@ -68,12 +76,15 @@ public class Users implements java.io.Serializable {
         this.lastname = lastname;
         this.dob = dob;
         this.address = address;
+        this.type = type;
         this.authoritieses = authoritieses;
-        this.studentStandards = studentStandards;
         this.lectureSchedules = lectureSchedules;
+        this.studentDetailses = studentDetailses;
+        this.chapterDetailses = chapterDetailses;
         this.feedbacksForGivenBy = feedbacksForGivenBy;
         this.chapters = chapters;
         this.feedbacksForGivenTo = feedbacksForGivenTo;
+        this.studentStandards = studentStandards;
     }
 
     @Id
@@ -159,6 +170,15 @@ public class Users implements java.io.Serializable {
         this.address = address;
     }
 
+    @Column(name = "type")
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
     public Set<Authorities> getAuthoritieses() {
         return this.authoritieses;
@@ -166,24 +186,6 @@ public class Users implements java.io.Serializable {
 
     public void setAuthoritieses(Set<Authorities> authoritieses) {
         this.authoritieses = authoritieses;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-    public Set<StudentStandard> getStudentStandards() {
-        return this.studentStandards;
-    }
-
-    public void setStudentStandards(Set<StudentStandard> studentStandards) {
-        this.studentStandards = studentStandards;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-    public Set<Chapter> getChapters() {
-        return this.chapters;
-    }
-
-    public void setChapters(Set<Chapter> chapters) {
-        this.chapters = chapters;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
@@ -195,6 +197,24 @@ public class Users implements java.io.Serializable {
         this.lectureSchedules = lectureSchedules;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+    public Set<StudentDetails> getStudentDetailses() {
+        return this.studentDetailses;
+    }
+
+    public void setStudentDetailses(Set<StudentDetails> studentDetailses) {
+        this.studentDetailses = studentDetailses;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+    public Set<ChapterDetails> getChapterDetailses() {
+        return this.chapterDetailses;
+    }
+
+    public void setChapterDetailses(Set<ChapterDetails> chapterDetailses) {
+        this.chapterDetailses = chapterDetailses;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByGivenBy")
     public Set<Feedback> getFeedbacksForGivenBy() {
         return this.feedbacksForGivenBy;
@@ -204,6 +224,15 @@ public class Users implements java.io.Serializable {
         this.feedbacksForGivenBy = feedbacksForGivenBy;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+    public Set<Chapter> getChapters() {
+        return this.chapters;
+    }
+
+    public void setChapters(Set<Chapter> chapters) {
+        this.chapters = chapters;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByGivenTo")
     public Set<Feedback> getFeedbacksForGivenTo() {
         return this.feedbacksForGivenTo;
@@ -211,6 +240,15 @@ public class Users implements java.io.Serializable {
 
     public void setFeedbacksForGivenTo(Set<Feedback> feedbacksForGivenTo) {
         this.feedbacksForGivenTo = feedbacksForGivenTo;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
+    public Set<StudentStandard> getStudentStandards() {
+        return this.studentStandards;
+    }
+
+    public void setStudentStandards(Set<StudentStandard> studentStandards) {
+        this.studentStandards = studentStandards;
     }
 }
 

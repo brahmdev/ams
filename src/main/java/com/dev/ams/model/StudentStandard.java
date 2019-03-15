@@ -1,5 +1,5 @@
 package com.dev.ams.model;
-// Generated Mar 3, 2019, 8:14:57 PM by Hibernate Tools 3.2.2.GA
+// Generated Mar 15, 2019, 9:06:04 PM by Hibernate Tools 3.2.2.GA
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,9 +26,11 @@ public class StudentStandard implements java.io.Serializable {
 
 
     private Integer id;
+
+    @JsonBackReference(value = "studentStandards-user")
     private Users users;
 
-    @JsonBackReference(value="studentStandard")
+    @JsonBackReference(value = "studentStandard")
     private Standard standard;
 
     public StudentStandard() {
@@ -41,6 +43,7 @@ public class StudentStandard implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+
     @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return this.id;

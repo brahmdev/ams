@@ -28,6 +28,7 @@ public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/about").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/v1/teacher/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/v1/user/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and()

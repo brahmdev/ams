@@ -20,7 +20,7 @@ public class LectureScheduleStatusResource {
     LectureStatusRepository lectureStatusRepository;
 
     @RequestMapping(value = "/{scheduleId}", method = RequestMethod.GET)
-    public Iterable<LectureScheduleStatus> getLectureStatusByscheduleId(@PathVariable String scheduleId) {
+    public Iterable<LectureScheduleStatus> getLectureStatusByscheduleId(@PathVariable Integer scheduleId) {
         return lectureStatusRepository.findByStatusByScheduleId(scheduleId);
     }
 
@@ -36,7 +36,7 @@ public class LectureScheduleStatusResource {
     }
 
     @RequestMapping(value = "/{scheduleId}", method = RequestMethod.DELETE)
-    public void deleteByLectureId(@PathVariable String scheduleId) {
+    public void deleteByLectureId(@PathVariable Integer scheduleId) {
         lectureStatusRepository.deleteByLectureScheduleByScheduleId(scheduleId);
     }
 

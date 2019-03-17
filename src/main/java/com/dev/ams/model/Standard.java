@@ -38,12 +38,11 @@ public class Standard implements java.io.Serializable {
     private String language;
     private Integer fees;
 
-    @JsonManagedReference(value = "studentStandard")
-    private Set<StudentStandard> studentStandards = new HashSet<StudentStandard>(0);
-
     @JsonManagedReference(value = "subject")
     private Set<Subject> subjects = new HashSet<Subject>(0);
 
+    @JsonManagedReference(value = "studentDetails-standard")
+    private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
     public Standard() {
     }
 
@@ -54,12 +53,11 @@ public class Standard implements java.io.Serializable {
         this.language = language;
     }
 
-    public Standard(Board board, String name, String language, Integer fees, Set<StudentStandard> studentStandards, Set<Subject> subjects) {
+    public Standard(Board board, String name, String language, Integer fees, Set<Subject> subjects) {
         this.board = board;
         this.name = name;
         this.language = language;
         this.fees = fees;
-        this.studentStandards = studentStandards;
         this.subjects = subjects;
     }
 
@@ -112,15 +110,6 @@ public class Standard implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
-    public Set<StudentStandard> getStudentStandards() {
-        return this.studentStandards;
-    }
-
-    public void setStudentStandards(Set<StudentStandard> studentStandards) {
-        this.studentStandards = studentStandards;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
     public Set<Subject> getSubjects() {
         return this.subjects;
     }
@@ -128,8 +117,6 @@ public class Standard implements java.io.Serializable {
     public void setSubjects(Set<Subject> subjects) {
         this.subjects = subjects;
     }
-
-
 }
 
 

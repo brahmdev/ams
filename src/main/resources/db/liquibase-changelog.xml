@@ -541,4 +541,17 @@
                       columnDataType="time"
                       tableName="lecture_schedule"/>
     </changeSet>
+
+    <changeSet id="40" author="brahmdev">
+        <dropTable cascadeConstraints="true"
+                   tableName="student_standard"/>
+
+        <renameColumn newColumnName="student_name"
+                      oldColumnName="student_id"
+                      columnDataType="VARCHAR(45)"
+                      tableName="student_details"/>
+
+        <dropColumn columnName="type"
+                    tableName="users"/>
+    </changeSet>
 </databaseChangeLog>

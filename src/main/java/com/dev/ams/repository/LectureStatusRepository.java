@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface LectureStatusRepository extends CrudRepository<LectureScheduleStatus, Integer> {
 
     @Query(value = "SELECT l FROM LectureScheduleStatus l WHERE l.lectureSchedule.id = :lectureScheduleId")
-    public Iterable<LectureScheduleStatus> findByStatusByScheduleId(@Param("lectureScheduleId") String lectureScheduleId);
+    public Iterable<LectureScheduleStatus> findByStatusByScheduleId(@Param("lectureScheduleId") Integer lectureScheduleId);
 
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM LectureScheduleStatus l WHERE l.lectureSchedule.id = :lectureScheduleId")
-    public void deleteByLectureScheduleByScheduleId(@Param("lectureScheduleId") String lectureScheduleId);
+    public void deleteByLectureScheduleByScheduleId(@Param("lectureScheduleId") Integer lectureScheduleId);
 
 }
 

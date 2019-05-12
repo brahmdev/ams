@@ -29,7 +29,7 @@ public class Board implements java.io.Serializable {
 
     private Integer boardId;
     private String boardName;
-    private Integer batchId;
+    private Integer yearId;
 
     @JsonManagedReference(value = "standard-board")
     private Set<Standard> standards = new HashSet<Standard>(0);
@@ -42,9 +42,9 @@ public class Board implements java.io.Serializable {
         this.boardName = boardName;
     }
 
-    public Board(String boardName, Integer batchId, Set<Standard> standards) {
+    public Board(String boardName, Integer yearId, Set<Standard> standards) {
         this.boardName = boardName;
-        this.batchId = batchId;
+        this.yearId = yearId;
         this.standards = standards;
     }
 
@@ -77,13 +77,13 @@ public class Board implements java.io.Serializable {
         this.standards = standards;
     }
 
-    @Column(name = "batch_id")
-    public Integer getBatchId() {
-        return this.batchId;
+    @Column(name = "year_id")
+    public Integer getYearId() {
+        return this.yearId;
     }
 
-    public void setBatchId(Integer batchId) {
-        this.batchId = batchId;
+    public void setYearId(Integer yearId) {
+        this.yearId = yearId;
     }
 
 }

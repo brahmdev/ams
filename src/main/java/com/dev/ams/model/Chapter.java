@@ -39,7 +39,7 @@ public class Chapter implements java.io.Serializable {
     private Date finishDate;
     private Integer timeTaken;
     private String status;
-    private Integer batchId;
+    private Integer yearId;
 
     public Chapter() {
     }
@@ -52,7 +52,7 @@ public class Chapter implements java.io.Serializable {
         this.status = status;
     }
 
-    public Chapter(Users users, Subject subject, String number, String name, Date startDate, Date finishDate, Integer timeTaken, String status, Integer batchId) {
+    public Chapter(Users users, Subject subject, String number, String name, Date startDate, Date finishDate, Integer timeTaken, String status, Integer yearId) {
         this.users = users;
         this.subject = subject;
         this.number = number;
@@ -61,7 +61,7 @@ public class Chapter implements java.io.Serializable {
         this.finishDate = finishDate;
         this.timeTaken = timeTaken;
         this.status = status;
-        this.batchId = batchId;
+        this.yearId = yearId;
     }
 
 
@@ -152,13 +152,13 @@ public class Chapter implements java.io.Serializable {
         this.status = status;
     }
 
-    @Column(name = "batch_id")
-    public Integer getBatchId() {
-        return this.batchId;
+    @Column(name = "year_id")
+    public Integer getYearId() {
+        return this.yearId;
     }
 
-    public void setBatchId(Integer batchId) {
-        this.batchId = batchId;
+    public void setYearId(Integer yearId) {
+        this.yearId = yearId;
     }
 }
 

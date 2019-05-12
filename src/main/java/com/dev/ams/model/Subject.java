@@ -35,7 +35,7 @@ public class Subject implements java.io.Serializable {
     @JsonBackReference(value = "subject")
     private Standard standard;
     private String name;
-    private Integer batchId;
+    private Integer yearId;
 
     @JsonManagedReference(value = "subject-chapter")
     private Set<Chapter> chapters = new HashSet<Chapter>(0);
@@ -51,10 +51,10 @@ public class Subject implements java.io.Serializable {
     public Subject() {
     }
 
-    public Subject(Standard standard, String name, Integer batchId, Set<Chapter> chapters, Set<QuestionPapers> questionPaperses, Set<LectureSchedule> lectureSchedules, Set<Exam> exams) {
+    public Subject(Standard standard, String name, Integer yearId, Set<Chapter> chapters, Set<QuestionPapers> questionPaperses, Set<LectureSchedule> lectureSchedules, Set<Exam> exams) {
         this.standard = standard;
         this.name = name;
-        this.batchId = batchId;
+        this.yearId = yearId;
         this.chapters = chapters;
         this.questionPaperses = questionPaperses;
         this.lectureSchedules = lectureSchedules;
@@ -91,13 +91,13 @@ public class Subject implements java.io.Serializable {
         this.name = name;
     }
 
-    @Column(name = "batch_id")
-    public Integer getBatchId() {
-        return this.batchId;
+    @Column(name = "year_id")
+    public Integer getYearId() {
+        return this.yearId;
     }
 
-    public void setBatchId(Integer batchId) {
-        this.batchId = batchId;
+    public void setYearId(Integer yearId) {
+        this.yearId = yearId;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subject")

@@ -108,7 +108,7 @@ public class LectureSchedule implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch_id", nullable = false)
+    @JoinColumn(name = "year_id", nullable = false)
     public Batch getBatch() {
         return this.batch;
     }

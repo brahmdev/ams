@@ -37,7 +37,7 @@ public class StudentDetails implements java.io.Serializable {
 
     @JsonBackReference(value = "studentDetails-standard")
     private Standard standard;
-    private Integer batchId;
+    private Integer yearId;
 
     @JsonManagedReference(value = "studentDetails-attendance")
     private Set<StudentAttendance> studentAttendances = new HashSet<StudentAttendance>(0);
@@ -52,10 +52,10 @@ public class StudentDetails implements java.io.Serializable {
         this.standard = standard;
     }
 
-    public StudentDetails(Users users, Standard standard, Integer batchId, Set<StudentAttendance> studentAttendances, Set<ExamResult> examResults) {
+    public StudentDetails(Users users, Standard standard, Integer yearId, Set<StudentAttendance> studentAttendances, Set<ExamResult> examResults) {
         this.users = users;
         this.standard = standard;
-        this.batchId = batchId;
+        this.yearId = yearId;
         this.studentAttendances = studentAttendances;
         this.examResults = examResults;
     }
@@ -91,13 +91,13 @@ public class StudentDetails implements java.io.Serializable {
         this.standard = standard;
     }
 
-    @Column(name = "batch_id")
-    public Integer getBatchId() {
-        return this.batchId;
+    @Column(name = "year_id")
+    public Integer getYearId() {
+        return this.yearId;
     }
 
-    public void setBatchId(Integer batchId) {
-        this.batchId = batchId;
+    public void setYearId(Integer yearId) {
+        this.yearId = yearId;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentDetails")

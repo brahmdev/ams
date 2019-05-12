@@ -87,6 +87,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="to" type="datetime"/>
+            <column name="year_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet author="brahmdev" id="6">
@@ -303,28 +306,16 @@
             <column autoIncrement="true" name="id" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="year" type="DATE">
+            <column name="name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <createTable tableName="lecture_schedule">
+        <createTable tableName="year">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="subject_id" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="from" type="TIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="to" type="TIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="taken_by" type="VARCHAR(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="batch_id" type="INT">
+            <column name="year" type="DATE">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -360,13 +351,13 @@
                                  referencedColumnNames="username"
                                  referencedTableName="users"/>
 
-        <addForeignKeyConstraint baseColumnNames="batch_id"
+        <addForeignKeyConstraint baseColumnNames="year_id"
                                  baseTableName="lecture_schedule"
-                                 constraintName="fk_batch_lecture_schedule"
+                                 constraintName="fk_year_lecture_schedule"
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"
                                  referencedColumnNames="id"
-                                 referencedTableName="batch"/>
+                                 referencedTableName="year"/>
 
         <addForeignKeyConstraint baseColumnNames="schedule_id"
                                  baseTableName="lecture_schedule_status"
@@ -383,23 +374,55 @@
         </addColumn>
 
         <addColumn tableName="student_details">
-            <column name="batch_id" type="INT"/>
+            <column name="year_id" type="INT"/>
         </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="year_id"
+                                 baseTableName="student_details"
+                                 constraintName="fk_year_student_details"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="year"/>
 
         <addColumn tableName="board">
-            <column name="batch_id" type="INT"/>
+            <column name="year_id" type="INT"/>
         </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="year_id"
+                                 baseTableName="board"
+                                 constraintName="fk_year_board"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="year"/>
 
         <addColumn tableName="standard">
-            <column name="batch_id" type="INT"/>
+            <column name="year_id" type="INT"/>
         </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="year_id"
+                                 baseTableName="standard"
+                                 constraintName="fk_year_standard"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="year"/>
 
         <addColumn tableName="subject">
-            <column name="batch_id" type="INT"/>
+            <column name="year_id" type="INT"/>
         </addColumn>
 
+        <addForeignKeyConstraint baseColumnNames="year_id"
+                                 baseTableName="subject"
+                                 constraintName="fk_year_subject"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="year"/>
+
         <addColumn tableName="chapter">
-            <column name="batch_id" type="INT"/>
+            <column name="year_id" type="INT"/>
         </addColumn>
 
     </changeSet>
@@ -543,9 +566,6 @@
     </changeSet>
 
     <changeSet id="40" author="brahmdev">
-        <dropTable cascadeConstraints="true"
-                   tableName="student_standard"/>
-
         <renameColumn newColumnName="student_name"
                       oldColumnName="student_id"
                       columnDataType="VARCHAR(45)"

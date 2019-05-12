@@ -48,6 +48,28 @@
             </column>
             <column name="taken_by" type="VARCHAR(45)"/>
         </createTable>
+
+        <createTable tableName="batch">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="standard_id" type="INT(11)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="year">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="year" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
     </changeSet>
     <changeSet author="brahmdev" id="4">
         <createTable tableName="feedback">
@@ -76,6 +98,9 @@
         <createTable tableName="lecture_schedule">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints primaryKey="true"/>
+            </column>
+            <column name="batch_id" type="INT">
+                <constraints nullable="false"/>
             </column>
             <column name="subject_id" type="INT">
                 <constraints nullable="false"/>
@@ -148,6 +173,15 @@
             <column name="name" type="VARCHAR(45)"/>
             <column name="standard_id" type="INT"/>
         </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="standard_id"
+                                 baseTableName="batch"
+                                 constraintName="fk_standard_batch"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="standard"/>
+
     </changeSet>
     <changeSet author="brahmdev" id="10">
         <createTable tableName="users">
@@ -302,24 +336,6 @@
     </changeSet>
     <changeSet author="brahmdev" id="35">
 
-        <createTable tableName="batch">
-            <column autoIncrement="true" name="id" type="INT">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="year">
-            <column autoIncrement="true" name="id" type="INT">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="year" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
         <createTable tableName="lecture_schedule_status">
             <column autoIncrement="true" name="id" type="INT">
                 <constraints primaryKey="true"/>
@@ -334,6 +350,14 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="batch_id"
+                                 baseTableName="lecture_schedule"
+                                 constraintName="fk_batch_lecture_schedule"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="id"
+                                 referencedTableName="batch"/>
 
         <addForeignKeyConstraint baseColumnNames="subject_id"
                                  baseTableName="lecture_schedule"

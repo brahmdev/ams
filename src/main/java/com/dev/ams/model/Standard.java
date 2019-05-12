@@ -43,6 +43,10 @@ public class Standard implements java.io.Serializable {
 
     @JsonManagedReference(value = "studentDetails-standard")
     private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
+
+    @JsonManagedReference(value = "batch")
+    private Set<Batch> batches = new HashSet<Batch>(0);
+
     public Standard() {
     }
 
@@ -117,6 +121,16 @@ public class Standard implements java.io.Serializable {
     public void setSubjects(Set<Subject> subjects) {
         this.subjects = subjects;
     }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
+    public Set<Batch> getBatches() {
+        return batches;
+    }
+
+    public void setBatches(Set<Batch> batches) {
+        this.batches = batches;
+    }
+
 }
 
 

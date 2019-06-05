@@ -1,11 +1,16 @@
 package com.dev.ams.model;
-// Generated Mar 15, 2019, 9:06:04 PM by Hibernate Tools 3.2.2.GA
+// Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,27 +24,39 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="chapter_details"
 )
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.StringIdGenerator.class,
+		property="chapterDetailsId")
 public class ChapterDetails  implements java.io.Serializable {
 
 
 	 private Integer id;
-	 private Users users;
-	 private Integer chapterNumber;
-	 private Integer hours;
-	 private Date date;
+	 private Chapter chapter;
+	 private EmployeeDetails employeeDetails;
+	 private Batch batch;
+	 private Date startDate;
+	 private Date endDate;
+	 private Integer hoursTaken;
 
 	public ChapterDetails() {
 	}
 
-	public ChapterDetails(Integer id, Users users, Integer chapterNumber, Integer hours, Date date) {
-	   this.id = id;
-	   this.users = users;
-	   this.chapterNumber = chapterNumber;
-	   this.hours = hours;
-	   this.date = date;
+	
+	public ChapterDetails(Chapter chapter, EmployeeDetails employeeDetails, Batch batch) {
+		this.chapter = chapter;
+		this.employeeDetails = employeeDetails;
+		this.batch = batch;
+	}
+	public ChapterDetails(Chapter chapter, EmployeeDetails employeeDetails, Batch batch, Date startDate, Date endDate, Integer hoursTaken) {
+	   this.chapter = chapter;
+	   this.employeeDetails = employeeDetails;
+	   this.batch = batch;
+	   this.startDate = startDate;
+	   this.endDate = endDate;
+	   this.hoursTaken = hoursTaken;
 	}
    
-	 @Id 
+	 @Id @GeneratedValue(strategy=IDENTITY)
 	
 	@Column(name="id", unique=true, nullable=false)
 	public Integer getId() {
@@ -50,40 +67,58 @@ public class ChapterDetails  implements java.io.Serializable {
 		this.id = id;
 	}
 @ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="taken_by", nullable=false)
-	public Users getUsers() {
-		return this.users;
+	@JoinColumn(name="chapter_id", nullable=false)
+	public Chapter getChapter() {
+		return this.chapter;
 	}
 	
-	public void setUsers(Users users) {
-		this.users = users;
+	public void setChapter(Chapter chapter) {
+		this.chapter = chapter;
+	}
+@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="employee_details_id", nullable=false)
+	public EmployeeDetails getEmployeeDetails() {
+		return this.employeeDetails;
 	}
 	
-	@Column(name="chapter_number", nullable=false)
-	public Integer getChapterNumber() {
-		return this.chapterNumber;
+	public void setEmployeeDetails(EmployeeDetails employeeDetails) {
+		this.employeeDetails = employeeDetails;
+	}
+@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="batch_id", nullable=false)
+	public Batch getBatch() {
+		return this.batch;
 	}
 	
-	public void setChapterNumber(Integer chapterNumber) {
-		this.chapterNumber = chapterNumber;
-	}
-	
-	@Column(name="hours", nullable=false)
-	public Integer getHours() {
-		return this.hours;
-	}
-	
-	public void setHours(Integer hours) {
-		this.hours = hours;
+	public void setBatch(Batch batch) {
+		this.batch = batch;
 	}
 	@Temporal(TemporalType.DATE)
-	@Column(name="date", nullable=false, length=10)
-	public Date getDate() {
-		return this.date;
+	@Column(name="start_date", length=10)
+	public Date getStartDate() {
+		return this.startDate;
 	}
 	
-	public void setDate(Date date) {
-		this.date = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	@Temporal(TemporalType.DATE)
+	@Column(name="end_date", length=10)
+	public Date getEndDate() {
+		return this.endDate;
+	}
+	
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
+	@Column(name="hours_taken")
+	public Integer getHoursTaken() {
+		return this.hoursTaken;
+	}
+	
+	public void setHoursTaken(Integer hoursTaken) {
+		this.hoursTaken = hoursTaken;
 	}
 
 

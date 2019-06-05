@@ -44,7 +44,10 @@ public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //Enable jdbc authentication
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+       // auth.jdbcAuthentication().dataSource(dataSource);
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .authoritiesByUsernameQuery("select username, name from users u , role r where u.role_id = r.id and u.username=?")
+                .usersByUsernameQuery("select username, password, 1 as enabled from users u  where u.username=?");
     }
 }

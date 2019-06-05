@@ -1,9 +1,9 @@
 package com.dev.ams.model;
-// Generated Mar 3, 2019, 11:29:41 AM by Hibernate Tools 3.2.2.GA
+// Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,7 +12,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,111 +30,112 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "users"
 )
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.StringIdGenerator.class,
+        property = "usersId")
 public class Users implements java.io.Serializable {
 
 
+    private Integer id;
+    private Institute institute;
     private String username;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
-    private byte enabled;
-    private String email;
-    private String mobile;
     private String firstname;
     private String lastname;
-    private Date dob;
+    private String email;
+    private String mobile;
+    private String phone;
+    private String password;
+    private String resetPasswordCode;
+    private String bloodGroup;
+    private byte[] photo;
     private String address;
-    private String type;
-
-    @JsonManagedReference(value = "authority")
-    private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
-
-    @JsonManagedReference(value = "lectureSchedules-user")
-    private Set<LectureSchedule> lectureSchedules = new HashSet<LectureSchedule>(0);
-
-    @JsonManagedReference(value = "studentDetails-user")
+    private String city;
+    private String state;
+    private String country;
+    private Character enabled;
+    private String gender;
+    private String language;
+    private Date created;
+    private Date update;
+    private Set<EmployeeDetails> employeeDetailses = new HashSet<EmployeeDetails>(0);
+    private Set<ParentDetails> parentDetailses = new HashSet<ParentDetails>(0);
     private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
-    private Set<ChapterDetails> chapterDetailses = new HashSet<ChapterDetails>(0);
-    private Set<Feedback> feedbacksForGivenBy = new HashSet<Feedback>(0);
-    private Set<Chapter> chapters = new HashSet<Chapter>(0);
-    private Set<Feedback> feedbacksForGivenTo = new HashSet<Feedback>(0);
+    private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
 
     public Users() {
     }
 
 
-    public Users(String username, String password, byte enabled, String firstname, String address) {
+    public Users(Institute institute, String username, String firstname, String lastname, String mobile, String password, String address, String city, String state, String country, String gender, Date created) {
+        this.institute = institute;
         this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.firstname = firstname;
-        this.address = address;
-    }
-
-    public Users(String username, String password, byte enabled, String email, String mobile, String firstname, String lastname, Date dob, String address, String type, Set<Authorities> authoritieses, Set<LectureSchedule> lectureSchedules, Set<StudentDetails> studentDetailses, Set<ChapterDetails> chapterDetailses, Set<Feedback> feedbacksForGivenBy, Set<Chapter> chapters, Set<Feedback> feedbacksForGivenTo) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.email = email;
-        this.mobile = mobile;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.dob = dob;
+        this.mobile = mobile;
+        this.password = password;
         this.address = address;
-        this.type = type;
-        this.authoritieses = authoritieses;
-        this.lectureSchedules = lectureSchedules;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.gender = gender;
+        this.created = created;
+    }
+
+    public Users(Institute institute, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, String bloodGroup, byte[] photo, String address, String city, String state, String country, Character enabled, String gender, String language, Date created, Date update, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
+        this.institute = institute;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.mobile = mobile;
+        this.phone = phone;
+        this.password = password;
+        this.resetPasswordCode = resetPasswordCode;
+        this.bloodGroup = bloodGroup;
+        this.photo = photo;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.enabled = enabled;
+        this.gender = gender;
+        this.language = language;
+        this.created = created;
+        this.update = update;
+        this.employeeDetailses = employeeDetailses;
+        this.parentDetailses = parentDetailses;
         this.studentDetailses = studentDetailses;
-        this.chapterDetailses = chapterDetailses;
-        this.feedbacksForGivenBy = feedbacksForGivenBy;
-        this.chapters = chapters;
-        this.feedbacksForGivenTo = feedbacksForGivenTo;
+        this.authoritieses = authoritieses;
     }
 
     @Id
-    @Column(name = "username", unique = true, nullable = false, length = 45)
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    public Integer getId() {
+        return this.id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "institute_id", nullable = false)
+    public Institute getInstitute() {
+        return this.institute;
+    }
+
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
+    }
+
+    @Column(name = "username", nullable = false, length = 30)
     public String getUsername() {
         return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Column(name = "password", nullable = false, length = 100)
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Column(name = "enabled", nullable = false)
-    public byte getEnabled() {
-        return this.enabled;
-    }
-
-    public void setEnabled(byte enabled) {
-        this.enabled = enabled;
-    }
-
-    @Column(name = "email", length = 75)
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Column(name = "mobile", length = 10)
-    public String getMobile() {
-        return this.mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
     }
 
     @Column(name = "firstname", nullable = false, length = 45)
@@ -140,7 +147,7 @@ public class Users implements java.io.Serializable {
         this.firstname = firstname;
     }
 
-    @Column(name = "lastname", length = 45)
+    @Column(name = "lastname", nullable = false, length = 45)
     public String getLastname() {
         return this.lastname;
     }
@@ -149,14 +156,67 @@ public class Users implements java.io.Serializable {
         this.lastname = lastname;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "dob", length = 10)
-    public Date getDob() {
-        return this.dob;
+    @Column(name = "email", length = 45)
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "mobile", nullable = false, length = 45)
+    public String getMobile() {
+        return this.mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    @Column(name = "phone", length = 45)
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Column(name = "password", nullable = false, length = 45)
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Column(name = "reset_password_code", length = 45)
+    public String getResetPasswordCode() {
+        return this.resetPasswordCode;
+    }
+
+    public void setResetPasswordCode(String resetPasswordCode) {
+        this.resetPasswordCode = resetPasswordCode;
+    }
+
+    @Column(name = "blood_group", length = 10)
+    public String getBloodGroup() {
+        return this.bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
+    }
+
+    @Column(name = "photo")
+    public byte[] getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Column(name = "address", nullable = false, length = 150)
@@ -168,31 +228,96 @@ public class Users implements java.io.Serializable {
         this.address = address;
     }
 
-    @Column(name = "type")
-    public String getType() {
-        return this.type;
+    @Column(name = "city", nullable = false, length = 15)
+    public String getCity() {
+        return this.city;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Column(name = "state", nullable = false, length = 20)
+    public String getState() {
+        return this.state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Column(name = "country", nullable = false, length = 20)
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Column(name = "enabled", length = 1)
+    public Character getEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(Character enabled) {
+        this.enabled = enabled;
+    }
+
+    @Column(name = "gender", nullable = false, length = 10)
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @Column(name = "language", length = 30)
+    public String getLanguage() {
+        return this.language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", nullable = false, length = 19)
+    public Date getCreated() {
+        return this.created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update", length = 19)
+    public Date getUpdate() {
+        return this.update;
+    }
+
+    public void setUpdate(Date update) {
+        this.update = update;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-    public Set<Authorities> getAuthoritieses() {
-        return this.authoritieses;
+    public Set<EmployeeDetails> getEmployeeDetailses() {
+        return this.employeeDetailses;
     }
 
-    public void setAuthoritieses(Set<Authorities> authoritieses) {
-        this.authoritieses = authoritieses;
+    public void setEmployeeDetailses(Set<EmployeeDetails> employeeDetailses) {
+        this.employeeDetailses = employeeDetailses;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-    public Set<LectureSchedule> getLectureSchedules() {
-        return this.lectureSchedules;
+    public Set<ParentDetails> getParentDetailses() {
+        return this.parentDetailses;
     }
 
-    public void setLectureSchedules(Set<LectureSchedule> lectureSchedules) {
-        this.lectureSchedules = lectureSchedules;
+    public void setParentDetailses(Set<ParentDetails> parentDetailses) {
+        this.parentDetailses = parentDetailses;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
@@ -205,40 +330,15 @@ public class Users implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-    public Set<ChapterDetails> getChapterDetailses() {
-        return this.chapterDetailses;
+    public Set<Authorities> getAuthoritieses() {
+        return this.authoritieses;
     }
 
-    public void setChapterDetailses(Set<ChapterDetails> chapterDetailses) {
-        this.chapterDetailses = chapterDetailses;
+    public void setAuthoritieses(Set<Authorities> authoritieses) {
+        this.authoritieses = authoritieses;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByGivenBy")
-    public Set<Feedback> getFeedbacksForGivenBy() {
-        return this.feedbacksForGivenBy;
-    }
 
-    public void setFeedbacksForGivenBy(Set<Feedback> feedbacksForGivenBy) {
-        this.feedbacksForGivenBy = feedbacksForGivenBy;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")
-    public Set<Chapter> getChapters() {
-        return this.chapters;
-    }
-
-    public void setChapters(Set<Chapter> chapters) {
-        this.chapters = chapters;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usersByGivenTo")
-    public Set<Feedback> getFeedbacksForGivenTo() {
-        return this.feedbacksForGivenTo;
-    }
-
-    public void setFeedbacksForGivenTo(Set<Feedback> feedbacksForGivenTo) {
-        this.feedbacksForGivenTo = feedbacksForGivenTo;
-    }
 }
 
 

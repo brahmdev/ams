@@ -13,12 +13,12 @@ import java.util.Optional;
 @Repository
 public interface BoardRepository extends CrudRepository<Board, String> {
 
-    @Query(value = "SELECT b FROM Board b WHERE b.boardName = :boardName")
+    @Query(value = "SELECT b FROM Board b WHERE b.name = :boardName")
     public Optional<Board> findByBoardName(@Param("boardName") String boardName);
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Board b WHERE b.boardName = :boardName")
+    @Query(value = "DELETE FROM Board b WHERE b.name = :boardName")
     public void deleteByBoardName(@Param("boardName") String boardName);
 
 }

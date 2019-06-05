@@ -1,9 +1,9 @@
 package com.dev.ams.model;
-// Generated Mar 3, 2019, 8:14:57 PM by Hibernate Tools 3.2.2.GA
+// Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,53 +27,64 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "standard"
 )
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.StringIdGenerator.class,
+        property = "standardId")
 public class Standard implements java.io.Serializable {
 
 
     private Integer id;
-
-    @JsonBackReference(value = "standard-board")
+    private Langugae langugae;
     private Board board;
+    private String code;
     private String name;
-    private String language;
     private Integer fees;
-
-    @JsonManagedReference(value = "subject")
     private Set<Subject> subjects = new HashSet<Subject>(0);
-
-    @JsonManagedReference(value = "studentDetails-standard")
-    private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
-
-    @JsonManagedReference(value = "batch")
-    private Set<Batch> batches = new HashSet<Batch>(0);
+    private Set<FeesCollection> feesCollections = new HashSet<FeesCollection>(0);
+    private Set<Batch> batchs = new HashSet<Batch>(0);
 
     public Standard() {
     }
 
 
-    public Standard(Board board, String name, String language) {
+    public Standard(Langugae langugae, Board board, String code, String name, Integer fees) {
+        this.langugae = langugae;
         this.board = board;
+        this.code = code;
         this.name = name;
-        this.language = language;
+        this.fees = fees;
     }
 
-    public Standard(Board board, String name, String language, Integer fees, Set<Subject> subjects) {
+    public Standard(Langugae langugae, Board board, String code, String name, Integer fees, Set<Subject> subjects, Set<FeesCollection> feesCollections, Set<Batch> batchs) {
+        this.langugae = langugae;
         this.board = board;
+        this.code = code;
         this.name = name;
-        this.language = language;
         this.fees = fees;
         this.subjects = subjects;
+        this.feesCollections = feesCollections;
+        this.batchs = batchs;
     }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = " id", unique = true, nullable = false)
     public Integer getId() {
         return this.id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "langugae_id", nullable = false)
+    public Langugae getLangugae() {
+        return this.langugae;
+    }
+
+    public void setLangugae(Langugae langugae) {
+        this.langugae = langugae;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -86,6 +97,15 @@ public class Standard implements java.io.Serializable {
         this.board = board;
     }
 
+    @Column(name = "code", nullable = false, length = 45)
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Column(name = "name", nullable = false, length = 45)
     public String getName() {
         return this.name;
@@ -95,16 +115,7 @@ public class Standard implements java.io.Serializable {
         this.name = name;
     }
 
-    @Column(name = "language", nullable = false, length = 45)
-    public String getLanguage() {
-        return this.language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    @Column(name = "fees")
+    @Column(name = "fees", nullable = false)
     public Integer getFees() {
         return this.fees;
     }
@@ -123,13 +134,23 @@ public class Standard implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
-    public Set<Batch> getBatches() {
-        return batches;
+    public Set<FeesCollection> getFeesCollections() {
+        return this.feesCollections;
     }
 
-    public void setBatches(Set<Batch> batches) {
-        this.batches = batches;
+    public void setFeesCollections(Set<FeesCollection> feesCollections) {
+        this.feesCollections = feesCollections;
     }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
+    public Set<Batch> getBatchs() {
+        return this.batchs;
+    }
+
+    public void setBatchs(Set<Batch> batchs) {
+        this.batchs = batchs;
+    }
+
 
 }
 

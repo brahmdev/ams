@@ -20,14 +20,15 @@ public class BoardResource {
     @Autowired
     BoardRepository boardRepository;
 
-    @RequestMapping(value = "/{boardName}", method = RequestMethod.GET)
-    public Optional<Board> getBoard(@PathVariable String boardName) {
-        return boardRepository.findByBoardName(boardName);
+    @RequestMapping(value = "/{instituteId}/{boardName}", method = RequestMethod.GET)
+    public Optional<Board> getBoard(@PathVariable("instituteId") Integer instituteId, @PathVariable("boardName") String boardName) {
+        return boardRepository.findByBoardName(instituteId, boardName);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Iterable<Board> getAllBoards() {
-        return boardRepository.findAll();
+    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
+    public Iterable<Board> getAllBoards(@PathVariable Integer instituteId) {
+        Iterable<Board> boards = boardRepository.findByAllBoardInstituteId(instituteId);
+        return boards;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -36,8 +37,8 @@ public class BoardResource {
         return boardRepository.save(board);
     }
 
-    @RequestMapping(value = "/{boardName}", method = RequestMethod.DELETE)
-    public void deleteBoard(@PathVariable String boardName) {
-        boardRepository.deleteByBoardName(boardName);
+    @RequestMapping(value = "/{instituteId}/{boardId}", method = RequestMethod.DELETE)
+    public void deleteBoard(@PathVariable("instituteId") Integer instituteId, @PathVariable("boardId") Integer boardId) {
+        boardRepository.deleteByBoardId(instituteId, boardId);
     }
 }

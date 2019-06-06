@@ -3,6 +3,7 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.Date;
@@ -183,6 +184,7 @@ public class Users implements java.io.Serializable {
         this.phone = phone;
     }
 
+    @JsonIgnore
     @Column(name = "password", nullable = false, length = 45)
     public String getPassword() {
         return this.password;
@@ -192,6 +194,7 @@ public class Users implements java.io.Serializable {
         this.password = password;
     }
 
+    @JsonIgnore
     @Column(name = "reset_password_code", length = 45)
     public String getResetPasswordCode() {
         return this.resetPasswordCode;

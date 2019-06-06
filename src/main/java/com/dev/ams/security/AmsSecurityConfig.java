@@ -6,9 +6,15 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -30,9 +36,25 @@ public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/v1/teacher/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/v1/user/**").hasAnyRole("USER")
-                .anyRequest().authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
-                .httpBasic();
+                .httpBasic().authenticationEntryPoint(new AuthenticationEntryPoint() {
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                String requestedBy = request.getHeader("X-Requested-By");
+                System.out.println("X-Requested-By: " + requestedBy);
+                if (requestedBy == null || requestedBy.isEmpty()) {
+                    HttpServletResponse httpResponse = (HttpServletResponse) response;
+                    httpResponse.addHeader("WWW-Authenticate", "realm=Cascade Realm");
+                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                } else {
+                    HttpServletResponse httpResponse = (HttpServletResponse) response;
+                    httpResponse.addHeader("WWW-Authenticate", "Application driven");
+                    httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                }
+            }
+        });
     }
 
     @Override

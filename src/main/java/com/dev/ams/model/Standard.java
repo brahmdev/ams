@@ -3,6 +3,7 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,31 +31,39 @@ public class Standard implements java.io.Serializable {
 
 
     private Integer id;
-    private Langugae langugae;
 
-    @JsonBackReference
+    @JsonManagedReference
+    private Language language;
+
+    @JsonManagedReference
     private Board board;
     private String code;
     private String name;
     private Integer fees;
+
+    @JsonBackReference
     private Set<Subject> subjects = new HashSet<Subject>(0);
+
+    @JsonBackReference
     private Set<FeesCollection> feesCollections = new HashSet<FeesCollection>(0);
+
+    @JsonBackReference
     private Set<Batch> batchs = new HashSet<Batch>(0);
 
     public Standard() {
     }
 
 
-    public Standard(Langugae langugae, Board board, String code, String name, Integer fees) {
-        this.langugae = langugae;
+    public Standard(Language language, Board board, String code, String name, Integer fees) {
+        this.language = language;
         this.board = board;
         this.code = code;
         this.name = name;
         this.fees = fees;
     }
 
-    public Standard(Langugae langugae, Board board, String code, String name, Integer fees, Set<Subject> subjects, Set<FeesCollection> feesCollections, Set<Batch> batchs) {
-        this.langugae = langugae;
+    public Standard(Language language, Board board, String code, String name, Integer fees, Set<Subject> subjects, Set<FeesCollection> feesCollections, Set<Batch> batchs) {
+        this.language = language;
         this.board = board;
         this.code = code;
         this.name = name;
@@ -66,7 +75,7 @@ public class Standard implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = " id", unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return this.id;
     }
@@ -76,13 +85,13 @@ public class Standard implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "langugae_id", nullable = false)
-    public Langugae getLangugae() {
-        return this.langugae;
+    @JoinColumn(name = "language_id", nullable = false)
+    public Language getLanguage() {
+        return this.language;
     }
 
-    public void setLangugae(Langugae langugae) {
-        this.langugae = langugae;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

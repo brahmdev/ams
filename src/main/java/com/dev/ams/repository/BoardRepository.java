@@ -18,9 +18,9 @@ public interface BoardRepository extends CrudRepository<Board, String> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Board b WHERE b.id = :boardId and b.institute.id = :instituteId")
-    public void deleteByBoardId(@Param("instituteId") Integer instituteId, @Param("boardId") Integer boardId);
+    @Query(value = "DELETE FROM Board b WHERE b.id = :boardId")
+    public void deleteByBoardId(@Param("boardId") Integer boardId);
 
     @Query(value = "SELECT b FROM Board b WHERE b.institute.id = :instituteId")
-    public Iterable<Board> findByAllBoardInstituteId(Integer instituteId);
+    public Iterable<Board> findAllBoardByInstituteId(Integer instituteId);
 }

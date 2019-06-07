@@ -18,14 +18,14 @@ public class StandardResource {
     @Autowired
     StandardRepository standardRepository;
 
-    @RequestMapping(value = "/{standardName}", method = RequestMethod.GET)
+  /*  @RequestMapping(value = "/{standardName}", method = RequestMethod.GET)
     public Iterable<Standard> getStandard(@PathVariable String standardName) {
         return standardRepository.findByStandardName(standardName);
     }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Iterable<Standard> getAllStandard() {
-        return standardRepository.findAll();
+*/
+    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
+    public Iterable<Standard> getAllStandard(@PathVariable Integer instituteId) {
+        return standardRepository.findAllStandardByInstituteId(instituteId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -34,9 +34,9 @@ public class StandardResource {
         return standardRepository.save(standard);
     }
 
-    @RequestMapping(value = "/{standardName}", method = RequestMethod.DELETE)
-    public void deleteStandard(@PathVariable String standardName) {
-        standardRepository.deleteByStandardName(standardName);
+    @RequestMapping(value = "/{standardId}", method = RequestMethod.DELETE)
+    public void deleteStandard(@PathVariable Integer standardId) {
+        standardRepository.deleteByStandardId(standardId);
     }
 
     //TODO need to write an endpoint which will accept standard name, board name and language to return exact one standard detail

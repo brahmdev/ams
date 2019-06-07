@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -27,8 +29,17 @@ public class BoardResource {
 
     @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
     public Iterable<Board> getAllBoards(@PathVariable Integer instituteId) {
-        Iterable<Board> boards = boardRepository.findByAllBoardInstituteId(instituteId);
-        return boards;
+        return boardRepository.findAllBoardByInstituteId(instituteId);
+    }
+
+    @RequestMapping(value = "/{instituteId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllBoardsLookUp(@PathVariable Integer instituteId) {
+        Iterable<Board> boards = boardRepository.findAllBoardByInstituteId(instituteId);
+        Map<Integer, String> boardLookUp = new HashMap<Integer, String>();
+        for (Board board: boards) {
+            boardLookUp.put(board.getId(), board.getCode());
+        }
+        return boardLookUp;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -37,8 +48,10 @@ public class BoardResource {
         return boardRepository.save(board);
     }
 
-    @RequestMapping(value = "/{instituteId}/{boardId}", method = RequestMethod.DELETE)
-    public void deleteBoard(@PathVariable("instituteId") Integer instituteId, @PathVariable("boardId") Integer boardId) {
-        boardRepository.deleteByBoardId(instituteId, boardId);
+    @RequestMapping(value = "/{boardId}", method = RequestMethod.DELETE)
+    public void deleteBoard(@PathVariable("boardId") Integer boardId) {
+        boardRepository.deleteByBoardId(boardId);
     }
+
+
 }

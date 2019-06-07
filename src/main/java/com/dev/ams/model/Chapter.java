@@ -2,6 +2,7 @@ package com.dev.ams.model;
 // Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -25,14 +26,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name="chapter"
 )
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.StringIdGenerator.class,
-		property="chapterId")
+
 public class Chapter  implements java.io.Serializable {
 
 
 	 private Integer id;
-	 private Subject subject;
+
+	@JsonBackReference
+	private Subject subject;
 	 private String code;
 	 private Integer number;
 	 private String name;

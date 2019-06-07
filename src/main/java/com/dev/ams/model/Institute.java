@@ -2,6 +2,8 @@ package com.dev.ams.model;
 // Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +36,11 @@ public class Institute implements java.io.Serializable {
     private byte[] logo;
     private Date created;
     private String theme;
+
+    @JsonBackReference
     private Set<Users> userses = new HashSet<Users>(0);
+
+    @JsonBackReference
     private Set<Board> boards = new HashSet<Board>(0);
 
     public Institute() {

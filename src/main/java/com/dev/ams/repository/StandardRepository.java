@@ -16,6 +16,9 @@ public interface StandardRepository extends CrudRepository<Standard, String> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Standard s WHERE s.name = :standardName")
-    public void deleteByStandardName(@Param("standardName") String standardName);
+    @Query(value = "DELETE FROM Standard s WHERE s.id = :standardId")
+    public void deleteByStandardId(@Param("standardId") Integer standardId);
+
+    @Query(value = "SELECT s FROM Standard s WHERE s.board.id IN (SELECT b.id from Board b WHERE b.institute.id = :instituteId)")
+    Iterable<Standard> findAllStandardByInstituteId(Integer instituteId);
 }

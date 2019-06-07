@@ -3,6 +3,7 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,10 +32,12 @@ public class Board implements java.io.Serializable {
 
     private Integer id;
 
-    @JsonBackReference
+    @JsonManagedReference
     private Institute institute;
     private String code;
     private String name;
+
+    @JsonBackReference
     private Set<Standard> standards = new HashSet<Standard>(0);
 
     public Board() {

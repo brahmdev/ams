@@ -2,6 +2,7 @@ package com.dev.ams.model;
 // Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -33,6 +34,8 @@ public class FeesCollection implements java.io.Serializable {
 
 
     private Integer id;
+
+    @JsonBackReference
     private Standard standard;
     private String studentUsername;
     private String feesTitle;

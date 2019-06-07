@@ -18,14 +18,9 @@ public class SubjectResource {
     @Autowired
     SubjectRepository subjectRepository;
 
-    @RequestMapping(value = "/{subjectName}", method = RequestMethod.GET)
-    public Iterable<Subject> getSubject(@PathVariable String subjectName) {
-        return subjectRepository.findBySubjectName(subjectName);
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Iterable<Subject> getAllSubjects() {
-        return subjectRepository.findAll();
+    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
+    public Iterable<Subject> getAllSubjects(@PathVariable Integer instituteId) {
+        return subjectRepository.findAllSubjectByInstituteId(instituteId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -34,9 +29,9 @@ public class SubjectResource {
         return subjectRepository.save(subject);
     }
 
-    @RequestMapping(value = "/{subjectName}", method = RequestMethod.DELETE)
-    public void deleteSubject(@PathVariable String subjectName) {
-        subjectRepository.deleteBySubjectName(subjectName);
+    @RequestMapping(value = "/{subjectId}", method = RequestMethod.DELETE)
+    public void deleteSubject(@PathVariable Integer subjectId) {
+        subjectRepository.deleteBySubjectId(subjectId);
     }
 
     //TODO need to write an endpoint which will accept subject name, standard name, board name and language to return exact one standard detail

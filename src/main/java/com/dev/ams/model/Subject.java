@@ -30,13 +30,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "subject"
 )
-@JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="@subjectId")
 public class Subject implements java.io.Serializable {
 
 
     private Integer id;
 
-    @JsonIgnore
     private Standard standard;
     private String code;
     private String name;
@@ -71,7 +69,7 @@ public class Subject implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_ id", nullable = false)
+    @JoinColumn(name = "standard_id", nullable = false)
     public Standard getStandard() {
         return this.standard;
     }

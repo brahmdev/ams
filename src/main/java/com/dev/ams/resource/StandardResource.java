@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/admin/standards")
 public class StandardResource {
@@ -18,14 +21,19 @@ public class StandardResource {
     @Autowired
     StandardRepository standardRepository;
 
-  /*  @RequestMapping(value = "/{standardName}", method = RequestMethod.GET)
-    public Iterable<Standard> getStandard(@PathVariable String standardName) {
-        return standardRepository.findByStandardName(standardName);
-    }
-*/
     @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
     public Iterable<Standard> getAllStandard(@PathVariable Integer instituteId) {
         return standardRepository.findAllStandardByInstituteId(instituteId);
+    }
+
+    @RequestMapping(value = "/{instituteId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllStandardsLookUp(@PathVariable Integer instituteId) {
+        Iterable<Standard> standards = standardRepository.findAllStandardByInstituteId(instituteId);
+        Map<Integer, String> standardLookUp = new HashMap<Integer, String>();
+        for (Standard standard: standards) {
+            standardLookUp.put(standard.getId(), standard.getCode());
+        }
+        return standardLookUp;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

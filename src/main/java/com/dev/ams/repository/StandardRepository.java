@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface StandardRepository extends CrudRepository<Standard, String> {
 
-    @Query(value = "SELECT s FROM Standard s WHERE s.name = :standardName")
-    public Iterable<Standard> findByStandardName(@Param("standardName") String standardName);
-
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM Standard s WHERE s.id = :standardId")

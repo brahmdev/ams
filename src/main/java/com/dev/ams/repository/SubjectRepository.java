@@ -9,11 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface SubjectRepository extends CrudRepository<Subject, String> {
 
-    @Query(value = "SELECT s FROM Subject s WHERE s.name = :subjectName")
-    public Iterable<Subject> findBySubjectName(@Param("subjectName") String subjectName);
-
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Subject s WHERE s.name = :subjectName")
-    public void deleteBySubjectName(@Param("subjectName") String subjectName);
+    @Query(value = "DELETE FROM Subject s WHERE s.id = :subjectId")
+    public void deleteBySubjectId(@Param("subjectId") Integer subjectId);
+
+    @Query(value = "SELECT sub FROM Subject sub WHERE sub.standard.id IN (\n" +
+            "\tSELECT id FROM Standard s WHERE s.board.id IN (\n" +
+            "\t\tSELECT id FROM Board b WHERE b.institute.id = :instituteId\n" +
+            "    )\n" +
+            ")")
+    Iterable<Subject> findAllSubjectByInstituteId(Integer instituteId);
 }

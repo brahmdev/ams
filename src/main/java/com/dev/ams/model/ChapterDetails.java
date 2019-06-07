@@ -24,9 +24,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="chapter_details"
 )
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.StringIdGenerator.class,
-		property="chapterDetailsId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@chapterDetailsId")
 public class ChapterDetails  implements java.io.Serializable {
 
 

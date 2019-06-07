@@ -40,7 +40,7 @@ public class Institute implements java.io.Serializable {
     @JsonBackReference
     private Set<Users> userses = new HashSet<Users>(0);
 
-    @JsonBackReference
+    @JsonBackReference(value="board-institute")
     private Set<Board> boards = new HashSet<Board>(0);
 
     public Institute() {

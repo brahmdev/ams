@@ -3,7 +3,11 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,28 +30,25 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "standard"
 )
-
 public class Standard implements java.io.Serializable {
 
 
     private Integer id;
 
-    @JsonManagedReference
     private Language language;
 
-    @JsonManagedReference
     private Board board;
     private String code;
     private String name;
     private Integer fees;
 
-    @JsonBackReference
+    @JsonBackReference(value="standard-subjects")
     private Set<Subject> subjects = new HashSet<Subject>(0);
 
-    @JsonBackReference
+    @JsonBackReference(value="standard-feesCollections")
     private Set<FeesCollection> feesCollections = new HashSet<FeesCollection>(0);
 
-    @JsonBackReference
+    @JsonBackReference(value="standard-batchs")
     private Set<Batch> batchs = new HashSet<Batch>(0);
 
     public Standard() {

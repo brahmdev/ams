@@ -4,6 +4,7 @@ package com.dev.ams.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -29,13 +30,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "subject"
 )
-
+@JsonIdentityInfo(generator= ObjectIdGenerators.UUIDGenerator.class, property="@subjectId")
 public class Subject implements java.io.Serializable {
 
 
     private Integer id;
 
-    @JsonManagedReference
+    @JsonIgnore
     private Standard standard;
     private String code;
     private String name;

@@ -3,7 +3,9 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,18 +28,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "board"
 )
-
 public class Board implements java.io.Serializable {
 
 
     private Integer id;
 
-    @JsonManagedReference
     private Institute institute;
     private String code;
     private String name;
 
-    @JsonBackReference
+    @JsonBackReference(value="board-standard")
     private Set<Standard> standards = new HashSet<Standard>(0);
 
     public Board() {

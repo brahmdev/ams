@@ -27,15 +27,12 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "fees_collection"
 )
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property = "feesId")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class FeesCollection implements java.io.Serializable {
 
 
     private Integer id;
 
-    @JsonBackReference
     private Standard standard;
     private String studentUsername;
     private String feesTitle;

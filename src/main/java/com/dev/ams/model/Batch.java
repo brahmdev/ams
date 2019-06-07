@@ -31,9 +31,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "batch"
 )
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property = "batchId")
+
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Batch implements java.io.Serializable {
 
 
@@ -76,7 +75,6 @@ public class Batch implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-
     @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return this.id;
@@ -87,7 +85,7 @@ public class Batch implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_ id", nullable = false)
+    @JoinColumn(name = "standard_id", nullable = false)
     public Standard getStandard() {
         return this.standard;
     }

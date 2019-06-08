@@ -28,7 +28,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "chapter"
 )
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@chapterId")
 public class Chapter implements java.io.Serializable {
 
 
@@ -38,6 +37,8 @@ public class Chapter implements java.io.Serializable {
     private String code;
     private Integer number;
     private String name;
+
+    @JsonBackReference(value="chapter-chapterDetails")
     private Set<ChapterDetails> chapterDetailses = new HashSet<ChapterDetails>(0);
 
     public Chapter() {

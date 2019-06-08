@@ -38,6 +38,8 @@ public class Subject implements java.io.Serializable {
     private Standard standard;
     private String code;
     private String name;
+
+    @JsonBackReference(value="subject-chapters")
     private Set<Chapter> chapters = new HashSet<Chapter>(0);
 
     public Subject() {

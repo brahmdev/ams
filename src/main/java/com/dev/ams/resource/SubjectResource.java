@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/admin/subjects")
 public class SubjectResource {
@@ -21,6 +24,16 @@ public class SubjectResource {
     @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
     public Iterable<Subject> getAllSubjects(@PathVariable Integer instituteId) {
         return subjectRepository.findAllSubjectByInstituteId(instituteId);
+    }
+
+    @RequestMapping(value = "/{instituteId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllSubjectsLookUp(@PathVariable Integer instituteId) {
+        Iterable<Subject> standards = subjectRepository.findAllSubjectByInstituteId(instituteId);
+        Map<Integer, String> subjectLookUp = new HashMap<Integer, String>();
+        for (Subject subject: standards) {
+            subjectLookUp.put(subject.getId(), subject.getCode());
+        }
+        return subjectLookUp;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -9,11 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface ChapterRepository extends CrudRepository<Chapter, String> {
 
-    @Query(value = "SELECT c FROM Chapter c WHERE c.name = :chapterName")
-    public Iterable<Chapter> findByChapterName(@Param("chapterName") String chapterName);
-
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Chapter c WHERE c.name = :chapterName")
-    public void deleteByChapterName(@Param("chapterName") String chapterName);
+    @Query(value = "DELETE FROM Chapter c WHERE c.id = :chapterId")
+    public void deleteByChapterId(@Param("chapterId") Integer chapterId);
+
+    @Query(value = "SELECT c FROM Chapter c where c.subject.id IN (\n" +
+            "\tSELECT id FROM Subject sub WHERE sub.standard.id IN (\n" +
+            "\tSELECT id FROM Standard s WHERE s.board.id IN (\n" +
+            "\t\tSELECT id FROM Board b WHERE b.institute.id = :instituteId\n" +
+            "    )\n" +
+            "))")
+    Iterable<Chapter> finAllChapterByInstituteId(Integer instituteId);
 }

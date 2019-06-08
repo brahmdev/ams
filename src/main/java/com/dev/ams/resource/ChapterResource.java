@@ -18,14 +18,9 @@ public class ChapterResource {
     @Autowired
     ChapterRepository chapterRepository;
 
-    @RequestMapping(value = "/{chapterName}", method = RequestMethod.GET)
-    public Iterable<Chapter> getChapter(@PathVariable String chapterName) {
-        return chapterRepository.findByChapterName(chapterName);
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Iterable<Chapter> getAllChapters() {
-        return chapterRepository.findAll();
+    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
+    public Iterable<Chapter> getAllChapters(@PathVariable Integer instituteId) {
+        return chapterRepository.finAllChapterByInstituteId(instituteId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -34,9 +29,9 @@ public class ChapterResource {
         return chapterRepository.save(chapter);
     }
 
-    @RequestMapping(value = "/{chapterName}", method = RequestMethod.DELETE)
-    public void deleteChapter(@PathVariable String chapterName) {
-        chapterRepository.deleteByChapterName(chapterName);
+    @RequestMapping(value = "/{chapterId}", method = RequestMethod.DELETE)
+    public void deleteChapter(@PathVariable Integer chapterId) {
+        chapterRepository.deleteByChapterId(chapterId);
     }
 
     //TODO need to write an endpoint which will accept subject name, standard name, board name and language to return exact one standard detail

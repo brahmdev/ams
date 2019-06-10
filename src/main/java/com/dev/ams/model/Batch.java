@@ -38,15 +38,21 @@ public class Batch implements java.io.Serializable {
 
     private Integer id;
 
-    @JsonBackReference
     private Standard standard;
     private String code;
     private String year;
     private String name;
+    private Integer capacity;
     private Date created;
     private Date updated;
+
+    @JsonBackReference(value="batch-batchtimings")
     private Set<BatchTimings> batchTimingses = new HashSet<BatchTimings>(0);
+
+    @JsonBackReference(value="batch-chapterdetails")
     private Set<ChapterDetails> chapterDetailses = new HashSet<ChapterDetails>(0);
+
+    @JsonBackReference(value="batch-studentdetails")
     private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
 
     public Batch() {
@@ -119,6 +125,15 @@ public class Batch implements java.io.Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "capacity", nullable = false)
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

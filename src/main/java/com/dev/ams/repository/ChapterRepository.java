@@ -17,8 +17,8 @@ public interface ChapterRepository extends CrudRepository<Chapter, String> {
     @Query(value = "SELECT c FROM Chapter c where c.subject.id IN (\n" +
             "\tSELECT id FROM Subject sub WHERE sub.standard.id IN (\n" +
             "\tSELECT id FROM Standard s WHERE s.board.id IN (\n" +
-            "\t\tSELECT id FROM Board b WHERE b.institute.id = :instituteId\n" +
+            "\t\tSELECT id FROM Board b WHERE b.branch.id = :branchId\n" +
             "    )\n" +
             "))")
-    Iterable<Chapter> finAllChapterByInstituteId(Integer instituteId);
+    Iterable<Chapter> finAllChapterByBranchId(Integer branchId);
 }

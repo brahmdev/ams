@@ -1,6 +1,6 @@
 package com.dev.ams.repository;
 
-import com.dev.ams.model.Board;
+import com.dev.ams.model.Branch;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface BoardRepository extends CrudRepository<Board, String> {
+public interface BranchRepository extends CrudRepository<Branch, String> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM Board b WHERE b.id = :boardId")
-    public void deleteByBoardId(@Param("boardId") Integer boardId);
+    @Query(value = "DELETE FROM Branch b WHERE b.id = :branchId")
+    public void deleteByBranchId(@Param("branchId") Integer branchId);
 
-    @Query(value = "SELECT b FROM Board b WHERE b.branch.id = :branchId")
-    public Iterable<Board> findAllBoardByBranchId(Integer branchId);
+    @Query(value = "SELECT b FROM Branch b WHERE b.institute.id = :instituteId")
+    public Iterable<Branch> findAllBranchByInstituteId(Integer instituteId);
 }

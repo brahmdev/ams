@@ -22,9 +22,19 @@ public class BatchResource {
     @Autowired
     BatchRepository batchRepository;
 
-    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
-    public Iterable<Batch> getAllBatch(@PathVariable Integer instituteId) {
-        return batchRepository.findAllBatchByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}", method = RequestMethod.GET)
+    public Iterable<Batch> getAllBatch(@PathVariable Integer branchId) {
+        return batchRepository.findAllBatchByBranchId(branchId);
+    }
+
+    @RequestMapping(value = "/standard/{standardId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllBatchOfStandard(@PathVariable Integer standardId) {
+        Iterable<Batch> batches =  batchRepository.findAllBatchByStandardId(standardId);
+        Map<Integer, String> batchLookUp = new HashMap<Integer, String>();
+        for (Batch batch: batches) {
+            batchLookUp.put(batch.getId(), batch.getCode());
+        }
+        return batchLookUp;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

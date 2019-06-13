@@ -18,9 +18,9 @@ public class ChapterResource {
     @Autowired
     ChapterRepository chapterRepository;
 
-    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
-    public Iterable<Chapter> getAllChapters(@PathVariable Integer instituteId) {
-        return chapterRepository.finAllChapterByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}", method = RequestMethod.GET)
+    public Iterable<Chapter> getAllChapters(@PathVariable Integer branchId) {
+        return chapterRepository.finAllChapterByBranchId(branchId);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

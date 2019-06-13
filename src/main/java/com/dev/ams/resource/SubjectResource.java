@@ -21,14 +21,14 @@ public class SubjectResource {
     @Autowired
     SubjectRepository subjectRepository;
 
-    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
-    public Iterable<Subject> getAllSubjects(@PathVariable Integer instituteId) {
-        return subjectRepository.findAllSubjectByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}", method = RequestMethod.GET)
+    public Iterable<Subject> getAllSubjects(@PathVariable Integer branchId) {
+        return subjectRepository.findAllSubjectByBranchId(branchId);
     }
 
-    @RequestMapping(value = "/{instituteId}/lookup", method = RequestMethod.GET)
-    public Map<Integer, String> getAllSubjectsLookUp(@PathVariable Integer instituteId) {
-        Iterable<Subject> standards = subjectRepository.findAllSubjectByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllSubjectsLookUp(@PathVariable Integer branchId) {
+        Iterable<Subject> standards = subjectRepository.findAllSubjectByBranchId(branchId);
         Map<Integer, String> subjectLookUp = new HashMap<Integer, String>();
         for (Subject subject: standards) {
             subjectLookUp.put(subject.getId(), subject.getCode());

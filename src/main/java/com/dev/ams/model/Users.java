@@ -1,10 +1,6 @@
 package com.dev.ams.model;
-// Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
+// Generated Jun 13, 2019 7:21:37 PM by Hibernate Tools 3.2.2.GA
 
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,14 +27,11 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "users"
 )
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property = "usersId")
 public class Users implements java.io.Serializable {
 
 
     private Integer id;
-    private Institute institute;
+    private Branch branch;
     private String username;
     private String firstname;
     private String lastname;
@@ -47,6 +40,7 @@ public class Users implements java.io.Serializable {
     private String phone;
     private String password;
     private String resetPasswordCode;
+    private Date dob;
     private String bloodGroup;
     private byte[] photo;
     private String address;
@@ -67,8 +61,7 @@ public class Users implements java.io.Serializable {
     }
 
 
-    public Users(Institute institute, String username, String firstname, String lastname, String mobile, String password, String address, String city, String state, String country, String gender, Date created) {
-        this.institute = institute;
+    public Users(String username, String firstname, String lastname, String mobile, String password, String address, String city, String state, String country, String gender, Date created) {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -82,8 +75,8 @@ public class Users implements java.io.Serializable {
         this.created = created;
     }
 
-    public Users(Institute institute, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, String bloodGroup, byte[] photo, String address, String city, String state, String country, Character enabled, String gender, String language, Date created, Date update, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
-        this.institute = institute;
+    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String state, String country, Character enabled, String gender, String language, Date created, Date update, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
+        this.branch = branch;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -92,6 +85,7 @@ public class Users implements java.io.Serializable {
         this.phone = phone;
         this.password = password;
         this.resetPasswordCode = resetPasswordCode;
+        this.dob = dob;
         this.bloodGroup = bloodGroup;
         this.photo = photo;
         this.address = address;
@@ -111,6 +105,7 @@ public class Users implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+
     @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return this.id;
@@ -121,13 +116,13 @@ public class Users implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "institute_id", nullable = false)
-    public Institute getInstitute() {
-        return this.institute;
+    @JoinColumn(name = "branch_id")
+    public Branch getBranch() {
+        return this.branch;
     }
 
-    public void setInstitute(Institute institute) {
-        this.institute = institute;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     @Column(name = "username", nullable = false, length = 30)
@@ -184,8 +179,7 @@ public class Users implements java.io.Serializable {
         this.phone = phone;
     }
 
-    @JsonIgnore
-    @Column(name = "password", nullable = false, length = 45)
+    @Column(name = "password", nullable = false, length = 100)
     public String getPassword() {
         return this.password;
     }
@@ -194,7 +188,6 @@ public class Users implements java.io.Serializable {
         this.password = password;
     }
 
-    @JsonIgnore
     @Column(name = "reset_password_code", length = 45)
     public String getResetPasswordCode() {
         return this.resetPasswordCode;
@@ -202,6 +195,16 @@ public class Users implements java.io.Serializable {
 
     public void setResetPasswordCode(String resetPasswordCode) {
         this.resetPasswordCode = resetPasswordCode;
+    }
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "dob", length = 10)
+    public Date getDob() {
+        return this.dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     @Column(name = "blood_group", length = 10)
@@ -343,5 +346,4 @@ public class Users implements java.io.Serializable {
 
 
 }
-
 

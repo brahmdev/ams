@@ -21,14 +21,14 @@ public class StandardResource {
     @Autowired
     StandardRepository standardRepository;
 
-    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
-    public Iterable<Standard> getAllStandard(@PathVariable Integer instituteId) {
-        return standardRepository.findAllStandardByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}", method = RequestMethod.GET)
+    public Iterable<Standard> getAllStandard(@PathVariable Integer branchId) {
+        return standardRepository.findAllStandardByBranchId(branchId);
     }
 
-    @RequestMapping(value = "/{instituteId}/lookup", method = RequestMethod.GET)
-    public Map<Integer, String> getAllStandardsLookUp(@PathVariable Integer instituteId) {
-        Iterable<Standard> standards = standardRepository.findAllStandardByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllStandardsLookUp(@PathVariable Integer branchId) {
+        Iterable<Standard> standards = standardRepository.findAllStandardByBranchId(branchId);
         Map<Integer, String> standardLookUp = new HashMap<Integer, String>();
         for (Standard standard: standards) {
             standardLookUp.put(standard.getId(), standard.getCode());

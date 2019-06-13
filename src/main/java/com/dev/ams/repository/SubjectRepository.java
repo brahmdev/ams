@@ -16,8 +16,8 @@ public interface SubjectRepository extends CrudRepository<Subject, String> {
 
     @Query(value = "SELECT sub FROM Subject sub WHERE sub.standard.id IN (\n" +
             "\tSELECT id FROM Standard s WHERE s.board.id IN (\n" +
-            "\t\tSELECT id FROM Board b WHERE b.institute.id = :instituteId\n" +
+            "\t\tSELECT id FROM Board b WHERE b.branch.id = :branchId\n" +
             "    )\n" +
             ")")
-    Iterable<Subject> findAllSubjectByInstituteId(Integer instituteId);
+    Iterable<Subject> findAllSubjectByBranchId(Integer branchId);
 }

@@ -22,19 +22,14 @@ public class BoardResource {
     @Autowired
     BoardRepository boardRepository;
 
-    @RequestMapping(value = "/{instituteId}/{boardName}", method = RequestMethod.GET)
-    public Optional<Board> getBoard(@PathVariable("instituteId") Integer instituteId, @PathVariable("boardName") String boardName) {
-        return boardRepository.findByBoardName(instituteId, boardName);
+    @RequestMapping(value = "/{branchId}", method = RequestMethod.GET)
+    public Iterable<Board> getAllBoards(@PathVariable Integer branchId) {
+        return boardRepository.findAllBoardByBranchId(branchId);
     }
 
-    @RequestMapping(value = "/{instituteId}", method = RequestMethod.GET)
-    public Iterable<Board> getAllBoards(@PathVariable Integer instituteId) {
-        return boardRepository.findAllBoardByInstituteId(instituteId);
-    }
-
-    @RequestMapping(value = "/{instituteId}/lookup", method = RequestMethod.GET)
-    public Map<Integer, String> getAllBoardsLookUp(@PathVariable Integer instituteId) {
-        Iterable<Board> boards = boardRepository.findAllBoardByInstituteId(instituteId);
+    @RequestMapping(value = "/{branchId}/lookup", method = RequestMethod.GET)
+    public Map<Integer, String> getAllBoardsLookUp(@PathVariable Integer branchId) {
+        Iterable<Board> boards = boardRepository.findAllBoardByBranchId(branchId);
         Map<Integer, String> boardLookUp = new HashMap<Integer, String>();
         for (Board board: boards) {
             boardLookUp.put(board.getId(), board.getCode());

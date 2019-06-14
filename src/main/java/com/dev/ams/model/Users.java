@@ -2,6 +2,8 @@ package com.dev.ams.model;
 // Generated Jun 13, 2019 7:21:37 PM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,10 +53,18 @@ public class Users implements java.io.Serializable {
     private String gender;
     private String language;
     private Date created;
-    private Date update;
+    private Date updated;
+
+    @JsonBackReference(value="users-employeeDetailses")
     private Set<EmployeeDetails> employeeDetailses = new HashSet<EmployeeDetails>(0);
+
+    @JsonBackReference(value="users-parentDetailses")
     private Set<ParentDetails> parentDetailses = new HashSet<ParentDetails>(0);
+
+    @JsonBackReference(value="users-studentDetailses")
     private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
+
+    @JsonBackReference(value="users-authoritieses")
     private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
 
     public Users() {
@@ -75,7 +85,7 @@ public class Users implements java.io.Serializable {
         this.created = created;
     }
 
-    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String state, String country, Character enabled, String gender, String language, Date created, Date update, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
+    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String state, String country, Character enabled, String gender, String language, Date created, Date updated, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
         this.branch = branch;
         this.username = username;
         this.firstname = firstname;
@@ -96,7 +106,7 @@ public class Users implements java.io.Serializable {
         this.gender = gender;
         this.language = language;
         this.created = created;
-        this.update = update;
+        this.updated = updated;
         this.employeeDetailses = employeeDetailses;
         this.parentDetailses = parentDetailses;
         this.studentDetailses = studentDetailses;
@@ -299,13 +309,13 @@ public class Users implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update", length = 19)
-    public Date getUpdate() {
-        return this.update;
+    @Column(name = "updated", length = 19)
+    public Date getUpdated() {
+        return this.updated;
     }
 
-    public void setUpdate(Date update) {
-        this.update = update;
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "users")

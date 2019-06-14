@@ -18,4 +18,7 @@ public interface StandardRepository extends CrudRepository<Standard, String> {
 
     @Query(value = "SELECT s FROM Standard s WHERE s.board.id IN (SELECT b.id from Board b WHERE b.branch.id = :branchId)")
     Iterable<Standard> findAllStandardByBranchId(Integer branchId);
+
+    @Query(value = "SELECT s FROM Standard s WHERE s.id = :standardId")
+    Standard findStandardById(Integer standardId);
 }

@@ -35,6 +35,17 @@ public class UsersResource {
     @ResponseBody
     public Users saveOrUpdateUser(@RequestBody Users user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        if (user.getStudentDetailses().iterator().hasNext()) {
+            user.getStudentDetailses().iterator().next().setUsers(user);
+        }
+
+        if (user.getAuthoritieses().iterator().hasNext()) {
+            user.getAuthoritieses().iterator().next().setUsers(user);
+        }
+
+        if (user.getParentDetailses().iterator().hasNext()) {
+            user.getParentDetailses().iterator().next().setUsers(user);
+        }
         return userRepository.save(user);
     }
 

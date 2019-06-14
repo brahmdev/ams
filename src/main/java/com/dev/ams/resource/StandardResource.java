@@ -26,6 +26,11 @@ public class StandardResource {
         return standardRepository.findAllStandardByBranchId(branchId);
     }
 
+    @RequestMapping(value = "/{standardId}/current", method = RequestMethod.GET)
+    public Standard getStandard(@PathVariable Integer standardId) {
+        return standardRepository.findStandardById(standardId);
+    }
+
     @RequestMapping(value = "/{branchId}/lookup", method = RequestMethod.GET)
     public Map<Integer, String> getAllStandardsLookUp(@PathVariable Integer branchId) {
         Iterable<Standard> standards = standardRepository.findAllStandardByBranchId(branchId);

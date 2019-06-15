@@ -1,6 +1,7 @@
 package com.dev.ams.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,9 @@ public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/static/**").permitAll()
+                .antMatchers("/manifest.json").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/", "/home", "/about").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/v1/teacher/**").hasAnyRole("ADMIN", "USER")

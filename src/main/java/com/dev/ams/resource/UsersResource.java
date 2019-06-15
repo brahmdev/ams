@@ -1,5 +1,6 @@
 package com.dev.ams.resource;
 
+import com.dev.ams.model.Authorities;
 import com.dev.ams.model.Users;
 import com.dev.ams.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,10 @@ public class UsersResource {
     @RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable String username) {
         userRepository.deleteById(username);
+    }
+
+    @RequestMapping(value = "/{username}/authorities", method = RequestMethod.GET)
+    public Iterable<Authorities> getAuthorityByUserName(@PathVariable String username) {
+        return userRepository.findAllAuthoritiesByUsername(username);
     }
 }

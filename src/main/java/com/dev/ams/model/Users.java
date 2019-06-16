@@ -47,6 +47,7 @@ public class Users implements java.io.Serializable {
     private byte[] photo;
     private String address;
     private String city;
+    private String zip;
     private String state;
     private String country;
     private Character enabled;
@@ -55,16 +56,16 @@ public class Users implements java.io.Serializable {
     private Date created;
     private Date updated;
 
-    @JsonBackReference(value="users-employeeDetailses")
+    @JsonBackReference(value = "users-employeeDetailses")
     private Set<EmployeeDetails> employeeDetailses = new HashSet<EmployeeDetails>(0);
 
-    @JsonBackReference(value="users-parentDetailses")
+    @JsonBackReference(value = "users-parentDetailses")
     private Set<ParentDetails> parentDetailses = new HashSet<ParentDetails>(0);
 
-    @JsonBackReference(value="users-studentDetailses")
+    @JsonBackReference(value = "users-studentDetailses")
     private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
 
-    @JsonBackReference(value="users-authoritieses")
+    @JsonBackReference(value = "users-authoritieses")
     private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
 
     public Users() {
@@ -85,7 +86,7 @@ public class Users implements java.io.Serializable {
         this.created = created;
     }
 
-    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String state, String country, Character enabled, String gender, String language, Date created, Date updated, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
+    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String zip, String state, String country, Character enabled, String gender, String language, Date created, Date updated, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
         this.branch = branch;
         this.username = username;
         this.firstname = firstname;
@@ -100,6 +101,7 @@ public class Users implements java.io.Serializable {
         this.photo = photo;
         this.address = address;
         this.city = city;
+        this.zip = zip;
         this.state = state;
         this.country = country;
         this.enabled = enabled;
@@ -251,6 +253,15 @@ public class Users implements java.io.Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Column(name = "zip", length = 45)
+    public String getZip() {
+        return this.zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     @Column(name = "state", nullable = false, length = 20)

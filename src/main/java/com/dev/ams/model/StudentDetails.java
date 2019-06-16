@@ -30,9 +30,6 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "student_details"
 )
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.StringIdGenerator.class,
-        property = "studentDetailsId")
 public class StudentDetails implements java.io.Serializable {
 
 
@@ -42,6 +39,7 @@ public class StudentDetails implements java.io.Serializable {
     private String rollNo;
     private Date admissionDate;
     private Character hasPaidFees;
+    private String parentsUsername;
     private Set<StudentAttendance> studentAttendances = new HashSet<StudentAttendance>(0);
 
     public StudentDetails() {
@@ -54,17 +52,19 @@ public class StudentDetails implements java.io.Serializable {
         this.rollNo = rollNo;
     }
 
-    public StudentDetails(Users users, Batch batch, String rollNo, Date admissionDate, Character hasPaidFees, Set<StudentAttendance> studentAttendances) {
+    public StudentDetails(Users users, Batch batch, String rollNo, Date admissionDate, Character hasPaidFees, String parentsUsername, Set<StudentAttendance> studentAttendances) {
         this.users = users;
         this.batch = batch;
         this.rollNo = rollNo;
         this.admissionDate = admissionDate;
         this.hasPaidFees = hasPaidFees;
+        this.parentsUsername = parentsUsername;
         this.studentAttendances = studentAttendances;
     }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+
     @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return this.id;
@@ -122,6 +122,15 @@ public class StudentDetails implements java.io.Serializable {
         this.hasPaidFees = hasPaidFees;
     }
 
+    @Column(name = "parents_username", length = 100)
+    public String getParentsUsername() {
+        return this.parentsUsername;
+    }
+
+    public void setParentsUsername(String parentsUsername) {
+        this.parentsUsername = parentsUsername;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentDetails")
     public Set<StudentAttendance> getStudentAttendances() {
         return this.studentAttendances;
@@ -130,8 +139,6 @@ public class StudentDetails implements java.io.Serializable {
     public void setStudentAttendances(Set<StudentAttendance> studentAttendances) {
         this.studentAttendances = studentAttendances;
     }
-
-
 }
 
 

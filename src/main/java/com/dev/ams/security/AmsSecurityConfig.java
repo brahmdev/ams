@@ -33,10 +33,7 @@ public class AmsSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/manifest.json").permitAll()
-                .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/", "/home", "/about").permitAll()
+                .antMatchers("/static/**", "/", "/home", "/about", "/manifest.json", "/favicon.ico").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/v1/teacher/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/v1/user/**").hasAnyRole("USER")

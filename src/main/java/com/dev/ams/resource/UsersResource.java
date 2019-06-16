@@ -32,6 +32,11 @@ public class UsersResource {
         return userRepository.findAll();
     }
 
+    @RequestMapping(value = "/{branchId}/{type}", method = RequestMethod.GET)
+    public Iterable<Users> getUsersByType(@PathVariable Integer branchId, @PathVariable String type) {
+        return userRepository.findByUsersByType(branchId, type);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Users saveOrUpdateUser(@RequestBody Users user) {

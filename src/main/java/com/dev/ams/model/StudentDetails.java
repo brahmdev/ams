@@ -3,6 +3,7 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.Date;
@@ -34,6 +35,8 @@ public class StudentDetails implements java.io.Serializable {
 
 
     private Integer id;
+
+    @JsonIgnore
     private Users users;
     private Batch batch;
     private String rollNo;

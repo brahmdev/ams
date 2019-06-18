@@ -1,6 +1,8 @@
 package com.dev.ams.resource;
 
 import com.dev.ams.model.Authorities;
+import com.dev.ams.model.ParentDetails;
+import com.dev.ams.model.StudentDetails;
 import com.dev.ams.model.Users;
 import com.dev.ams.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/admin/users")
@@ -22,9 +25,25 @@ public class UsersResource {
     @Autowired
     UserRepository userRepository;
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public Optional<Users> getUser(@PathVariable String username) {
-        return userRepository.findById(username);
+    @RequestMapping(value = "/parent/{username}", method = RequestMethod.GET)
+    public Optional<Users> getParentDetails(@PathVariable String username) {
+        Optional<Users> studentUser = userRepository.findByUserName(username);
+        Optional<Users> parentUser = null;
+        Set<StudentDetails> studentDetails;
+        Set<ParentDetails> parentDetails;
+
+        if (studentUser.isPresent()) {
+            studentDetails = userRepository.findStudentDetailsById(studentUser.get().getId());
+            if (studentDetails.iterator().hasNext()) {
+                String parentUserName = studentDetails.iterator().next().getParentsUsername();
+                parentUser = userRepository.findByUserName(parentUserName);
+                if (parentUser.isPresent()) {
+                    parentDetails = userRepository.findParentDetailsById(parentUser.get().getId());
+                    parentUser.get().setParentDetailses(parentDetails);
+                }
+            }
+        }
+        return parentUser;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

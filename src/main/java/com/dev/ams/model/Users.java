@@ -56,16 +56,12 @@ public class Users implements java.io.Serializable {
     private Date created;
     private Date updated;
 
-    @JsonBackReference(value = "users-employeeDetailses")
     private Set<EmployeeDetails> employeeDetailses = new HashSet<EmployeeDetails>(0);
 
-    @JsonBackReference(value = "users-parentDetailses")
     private Set<ParentDetails> parentDetailses = new HashSet<ParentDetails>(0);
 
-    @JsonBackReference(value = "users-studentDetailses")
     private Set<StudentDetails> studentDetailses = new HashSet<StudentDetails>(0);
 
-    @JsonBackReference(value = "users-authoritieses")
     private Set<Authorities> authoritieses = new HashSet<Authorities>(0);
 
     public Users() {

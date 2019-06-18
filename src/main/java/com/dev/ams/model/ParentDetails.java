@@ -3,6 +3,7 @@ package com.dev.ams.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.Column;
@@ -30,6 +31,8 @@ public class ParentDetails implements java.io.Serializable {
 
 
     private Integer id;
+
+    @JsonIgnore
     private Users users;
     private String relation;
     private String occupation;

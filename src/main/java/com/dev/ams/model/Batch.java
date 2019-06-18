@@ -32,7 +32,6 @@ import javax.persistence.TemporalType;
 @Table(name = "batch"
 )
 
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Batch implements java.io.Serializable {
 
 

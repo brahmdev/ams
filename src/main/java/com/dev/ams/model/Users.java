@@ -53,6 +53,8 @@ public class Users implements java.io.Serializable {
     private Character enabled;
     private String gender;
     private String language;
+    private String avatar;
+    private String signature;
     private Date created;
     private Date updated;
 
@@ -68,7 +70,7 @@ public class Users implements java.io.Serializable {
     }
 
 
-    public Users(String username, String firstname, String lastname, String mobile, String password, String address, String city, String state, String country, String gender, Date created) {
+    public Users(String username, String firstname, String lastname, String mobile, String password, String address, String city, String state, String country, String gender, String avatar, String signature, Date created) {
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -79,10 +81,12 @@ public class Users implements java.io.Serializable {
         this.state = state;
         this.country = country;
         this.gender = gender;
+        this.avatar = avatar;
+        this.signature = signature;
         this.created = created;
     }
 
-    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String zip, String state, String country, Character enabled, String gender, String language, Date created, Date updated, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
+    public Users(Branch branch, String username, String firstname, String lastname, String email, String mobile, String phone, String password, String resetPasswordCode, Date dob, String bloodGroup, byte[] photo, String address, String city, String zip, String state, String country, Character enabled, String gender, String language, String avatar, String signature, Date created, Date updated, Set<EmployeeDetails> employeeDetailses, Set<ParentDetails> parentDetailses, Set<StudentDetails> studentDetailses, Set<Authorities> authoritieses) {
         this.branch = branch;
         this.username = username;
         this.firstname = firstname;
@@ -103,6 +107,8 @@ public class Users implements java.io.Serializable {
         this.enabled = enabled;
         this.gender = gender;
         this.language = language;
+        this.avatar = avatar;
+        this.signature = signature;
         this.created = created;
         this.updated = updated;
         this.employeeDetailses = employeeDetailses;
@@ -303,6 +309,24 @@ public class Users implements java.io.Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    @Column(name = "avatar", length = 400)
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    @Column(name = "signature", length = 400)
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

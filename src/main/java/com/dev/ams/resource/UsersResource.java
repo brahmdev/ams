@@ -5,16 +5,23 @@ import com.dev.ams.model.ParentDetails;
 import com.dev.ams.model.StudentDetails;
 import com.dev.ams.model.Users;
 import com.dev.ams.repository.UserRepository;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
 
@@ -82,5 +89,37 @@ public class UsersResource {
     @RequestMapping(value = "/{username}/authorities", method = RequestMethod.GET)
     public Iterable<Authorities> getAuthorityByUserName(@PathVariable String username) {
         return userRepository.findAllAuthoritiesByUsername(username);
+    }
+
+    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+    public @ResponseBody
+    String uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            byte[] bytes = file.getBytes();;
+            String fileName = file.getOriginalFilename() + ".jpg";
+            Path path = Paths.get("/home/brahmdev/Documents/FilesToDelete/images/ams/avatar/" + fileName);
+            Files.write(path, bytes);
+
+            return "success ";
+        } catch (Exception e) {
+            return "error = " + e;
+        }
+    }
+
+    @RequestMapping(value = "/uploadBase64Image/{fileName}", method = RequestMethod.POST)
+    public @ResponseBody
+    String uploadBase64Image(@RequestBody String imageValue, @PathVariable String fileName) {
+        try {
+            String base64Image = imageValue.split(",")[1];
+
+            byte[] imageByte = Base64.decodeBase64(base64Image);
+
+            String directory = "/home/brahmdev/Documents/FilesToDelete/images/ams/signature/" + fileName + ".png";
+
+            new FileOutputStream(directory).write(imageByte);
+            return "success ";
+        } catch (Exception e) {
+            return "error = " + e;
+        }
     }
 }

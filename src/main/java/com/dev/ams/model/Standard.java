@@ -45,9 +45,6 @@ public class Standard implements java.io.Serializable {
     @JsonBackReference(value="standard-subjects")
     private Set<Subject> subjects = new HashSet<Subject>(0);
 
-    @JsonBackReference(value="standard-feesCollections")
-    private Set<FeesCollection> feesCollections = new HashSet<FeesCollection>(0);
-
     @JsonBackReference(value="standard-batchs")
     private Set<Batch> batchs = new HashSet<Batch>(0);
 
@@ -63,14 +60,13 @@ public class Standard implements java.io.Serializable {
         this.fees = fees;
     }
 
-    public Standard(Language language, Board board, String code, String name, Integer fees, Set<Subject> subjects, Set<FeesCollection> feesCollections, Set<Batch> batchs) {
+    public Standard(Language language, Board board, String code, String name, Integer fees, Set<Subject> subjects, Set<Batch> batchs) {
         this.language = language;
         this.board = board;
         this.code = code;
         this.name = name;
         this.fees = fees;
         this.subjects = subjects;
-        this.feesCollections = feesCollections;
         this.batchs = batchs;
     }
 
@@ -142,15 +138,6 @@ public class Standard implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
-    public Set<FeesCollection> getFeesCollections() {
-        return this.feesCollections;
-    }
-
-    public void setFeesCollections(Set<FeesCollection> feesCollections) {
-        this.feesCollections = feesCollections;
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "standard")
     public Set<Batch> getBatchs() {
         return this.batchs;
     }
@@ -158,7 +145,6 @@ public class Standard implements java.io.Serializable {
     public void setBatchs(Set<Batch> batchs) {
         this.batchs = batchs;
     }
-
 
 }
 

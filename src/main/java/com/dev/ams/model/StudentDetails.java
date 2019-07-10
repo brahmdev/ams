@@ -38,12 +38,17 @@ public class StudentDetails implements java.io.Serializable {
 
     @JsonIgnore
     private Users users;
+
+    @JsonIgnore
     private Batch batch;
     private String rollNo;
     private Date admissionDate;
     private Character hasPaidFees;
     private String parentsUsername;
+    private Integer totalFees;
+    private Integer feesDiscount;
     private Set<StudentAttendance> studentAttendances = new HashSet<StudentAttendance>(0);
+    private Set<FeesCollection> feesCollections = new HashSet<FeesCollection>(0);
 
     public StudentDetails() {
     }
@@ -55,14 +60,17 @@ public class StudentDetails implements java.io.Serializable {
         this.rollNo = rollNo;
     }
 
-    public StudentDetails(Users users, Batch batch, String rollNo, Date admissionDate, Character hasPaidFees, String parentsUsername, Set<StudentAttendance> studentAttendances) {
+    public StudentDetails(Users users, Batch batch, String rollNo, Date admissionDate, Character hasPaidFees, String parentsUsername, Integer totalFees, Integer feesDiscount, Set<StudentAttendance> studentAttendances, Set<FeesCollection> feesCollections) {
         this.users = users;
         this.batch = batch;
         this.rollNo = rollNo;
         this.admissionDate = admissionDate;
         this.hasPaidFees = hasPaidFees;
         this.parentsUsername = parentsUsername;
+        this.totalFees = totalFees;
+        this.feesDiscount = feesDiscount;
         this.studentAttendances = studentAttendances;
+        this.feesCollections = feesCollections;
     }
 
     @Id
@@ -134,6 +142,24 @@ public class StudentDetails implements java.io.Serializable {
         this.parentsUsername = parentsUsername;
     }
 
+    @Column(name = "total_fees")
+    public Integer getTotalFees() {
+        return this.totalFees;
+    }
+
+    public void setTotalFees(Integer totalFees) {
+        this.totalFees = totalFees;
+    }
+
+    @Column(name = "fees_discount")
+    public Integer getFeesDiscount() {
+        return this.feesDiscount;
+    }
+
+    public void setFeesDiscount(Integer feesDiscount) {
+        this.feesDiscount = feesDiscount;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentDetails")
     public Set<StudentAttendance> getStudentAttendances() {
         return this.studentAttendances;
@@ -141,6 +167,15 @@ public class StudentDetails implements java.io.Serializable {
 
     public void setStudentAttendances(Set<StudentAttendance> studentAttendances) {
         this.studentAttendances = studentAttendances;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentDetails")
+    public Set<FeesCollection> getFeesCollections() {
+        return this.feesCollections;
+    }
+
+    public void setFeesCollections(Set<FeesCollection> feesCollections) {
+        this.feesCollections = feesCollections;
     }
 }
 

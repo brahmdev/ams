@@ -32,7 +32,6 @@ public class FeesCollection implements java.io.Serializable {
 
     private Integer id;
 
-    @JsonIgnore
     private StudentDetails studentDetails;
     private String feesTitle;
     private Integer amount;
@@ -41,6 +40,7 @@ public class FeesCollection implements java.io.Serializable {
     private String receiptNumber;
     private String paymentMode;
     private Date nextPaymentDate;
+    private Integer remainingFees;
 
     public FeesCollection() {
     }
@@ -53,7 +53,7 @@ public class FeesCollection implements java.io.Serializable {
         this.payeeName = payeeName;
     }
 
-    public FeesCollection(StudentDetails studentDetails, String feesTitle, Integer amount, Date paymentDate, String payeeName, String receiptNumber, String paymentMode, Date nextPaymentDate) {
+    public FeesCollection(StudentDetails studentDetails, String feesTitle, Integer amount, Date paymentDate, String payeeName, String receiptNumber, String paymentMode, Date nextPaymentDate, Integer remainingFees) {
         this.studentDetails = studentDetails;
         this.feesTitle = feesTitle;
         this.amount = amount;
@@ -62,6 +62,7 @@ public class FeesCollection implements java.io.Serializable {
         this.receiptNumber = receiptNumber;
         this.paymentMode = paymentMode;
         this.nextPaymentDate = nextPaymentDate;
+        this.remainingFees = remainingFees;
     }
 
     @Id
@@ -150,6 +151,14 @@ public class FeesCollection implements java.io.Serializable {
         this.nextPaymentDate = nextPaymentDate;
     }
 
+    @Column(name = "remaining_fees", nullable = false)
+    public Integer getRemainingFees() {
+        return remainingFees;
+    }
+
+    public void setRemainingFees(Integer remainingFees) {
+        this.remainingFees = remainingFees;
+    }
 }
 
 

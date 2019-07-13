@@ -31,6 +31,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "student_details"
 )
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class StudentDetails implements java.io.Serializable {
 
 
@@ -39,7 +40,6 @@ public class StudentDetails implements java.io.Serializable {
     @JsonIgnore
     private Users users;
 
-    @JsonIgnore
     private Batch batch;
     private String rollNo;
     private Date admissionDate;

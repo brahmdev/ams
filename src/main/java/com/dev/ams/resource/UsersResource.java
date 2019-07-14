@@ -81,9 +81,9 @@ public class UsersResource {
         return userRepository.save(user);
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable String username) {
-        userRepository.deleteById(username);
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable Integer userId) {
+        userRepository.deleteUserById(userId);
     }
 
     @RequestMapping(value = "/{username}/authorities", method = RequestMethod.GET)

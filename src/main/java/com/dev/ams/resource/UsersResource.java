@@ -53,6 +53,11 @@ public class UsersResource {
         return parentUser;
     }
 
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public Optional<Users> getUserDetails(@PathVariable String username) {
+        return userRepository.findByUserName(username);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Iterable<Users> getAllUsers() {
         return userRepository.findAll();
@@ -95,9 +100,9 @@ public class UsersResource {
     public @ResponseBody
     String uploadImage(@RequestParam("file") MultipartFile file) {
         try {
-            byte[] bytes = file.getBytes();;
+            byte[] bytes = file.getBytes();
             String fileName = file.getOriginalFilename() + ".jpg";
-            Path path = Paths.get("/home/brahmdev/Documents/FilesToDelete/images/ams/avatar/" + fileName);
+            Path path = Paths.get("/home/kalpdev/Documents/FilesToDelete/images/ams/avatar/" + fileName);
             Files.write(path, bytes);
 
             return "success ";

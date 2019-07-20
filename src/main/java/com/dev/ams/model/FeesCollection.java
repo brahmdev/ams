@@ -2,8 +2,8 @@ package com.dev.ams.model;
 // Generated Jun 5, 2019 8:13:49 AM by Hibernate Tools 3.2.2.GA
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "fees_collection"
 )
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = FeesCollection.class)
 public class FeesCollection implements java.io.Serializable {
 
 
@@ -104,8 +104,9 @@ public class FeesCollection implements java.io.Serializable {
         this.amount = amount;
     }
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "payment_date", nullable = false, length = 10)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     public Date getPaymentDate() {
         return this.paymentDate;
     }
@@ -143,6 +144,7 @@ public class FeesCollection implements java.io.Serializable {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "next_payment_date", length = 10)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     public Date getNextPaymentDate() {
         return this.nextPaymentDate;
     }

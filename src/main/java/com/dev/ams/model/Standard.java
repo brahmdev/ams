@@ -36,8 +36,6 @@ public class Standard implements java.io.Serializable {
     private Integer id;
 
     private Language language;
-
-    @JsonIgnore
     private Board board;
     private String code;
     private String name;

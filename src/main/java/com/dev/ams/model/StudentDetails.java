@@ -96,7 +96,7 @@ public class StudentDetails implements java.io.Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch_id", nullable = false)
+    @JoinColumn(name = "batch_id")
     public Batch getBatch() {
         return this.batch;
     }

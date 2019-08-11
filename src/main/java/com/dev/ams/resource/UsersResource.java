@@ -1,10 +1,17 @@
 package com.dev.ams.resource;
 
+import com.amazonaws.services.s3.model.AccessControlList;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GroupGrantee;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.Permission;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.dev.ams.model.Authorities;
 import com.dev.ams.model.ParentDetails;
 import com.dev.ams.model.StudentDetails;
 import com.dev.ams.model.Users;
 import com.dev.ams.repository.UserRepository;
+import com.dev.ams.utils.AWSUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,11 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 
 @RestController
@@ -31,6 +43,8 @@ public class UsersResource {
 
     @Autowired
     UserRepository userRepository;
+
+    private static final String S3_BUCKET_NAME = "devarena-ams";
 
     @RequestMapping(value = "/parent/{username}", method = RequestMethod.GET)
     public Optional<Users> getParentDetails(@PathVariable String username) {
@@ -88,6 +102,11 @@ public class UsersResource {
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable Integer userId) {
+        Optional<Users> user = userRepository.findByUserId(userId);
+        String userName = user.get().getUsername();
+        AWSUtils.getAmazonS3Client().deleteObject(S3_BUCKET_NAME, "test/avatar/" + userName + ".png");
+        AWSUtils.getAmazonS3Client().deleteObject(S3_BUCKET_NAME, "test/signature/" + userName + ".png");
+
         userRepository.deleteUserById(userId);
     }
 
@@ -98,33 +117,50 @@ public class UsersResource {
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public @ResponseBody
-    String uploadImage(@RequestParam("file") MultipartFile file) {
+    void uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             byte[] bytes = file.getBytes();
-            String fileName = file.getOriginalFilename() + ".jpg";
-            Path path = Paths.get("/home/kalpdev/Documents/FilesToDelete/images/ams/avatar/" + fileName);
-            Files.write(path, bytes);
+            String fileName = file.getOriginalFilename() + ".png";
+            InputStream targetStream = new ByteArrayInputStream(bytes);
 
-            return "success ";
+            Long contentLength = Long.valueOf(bytes.length);
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(contentLength);
+
+            PutObjectRequest putObjectRequest = new PutObjectRequest(S3_BUCKET_NAME, "test/avatar/" + fileName, targetStream, metadata);
+            AccessControlList acl = new AccessControlList();
+            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read); //all users or authenticated
+            putObjectRequest.setAccessControlList(acl);
+            AWSUtils.getAmazonS3Client().putObject(putObjectRequest);
         } catch (Exception e) {
-            return "error = " + e;
+            e.printStackTrace();
         }
     }
 
     @RequestMapping(value = "/uploadBase64Image/{fileName}", method = RequestMethod.POST)
     public @ResponseBody
-    String uploadBase64Image(@RequestBody String imageValue, @PathVariable String fileName) {
+    void uploadBase64Image(@RequestBody String imageValue, @PathVariable String fileName) {
         try {
             String base64Image = imageValue.split(",")[1];
 
             byte[] imageByte = Base64.decodeBase64(base64Image);
 
-            String directory = "/home/brahmdev/Documents/FilesToDelete/images/ams/signature/" + fileName + ".png";
+            InputStream targetStream = new ByteArrayInputStream(imageByte);
 
-            new FileOutputStream(directory).write(imageByte);
-            return "success ";
+            Long contentLength = Long.valueOf(imageByte.length);
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(contentLength);
+
+            PutObjectRequest putObjectRequest = new PutObjectRequest(S3_BUCKET_NAME, "test/signature/" + fileName + ".png", targetStream, metadata);
+            AccessControlList acl = new AccessControlList();
+            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read); //all users or authenticated
+            putObjectRequest.setAccessControlList(acl);
+            AWSUtils.getAmazonS3Client().putObject(putObjectRequest);
+
         } catch (Exception e) {
-            return "error = " + e;
+            e.printStackTrace();
         }
     }
 }

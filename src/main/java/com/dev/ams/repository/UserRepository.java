@@ -20,6 +20,9 @@ public interface UserRepository extends CrudRepository<Users, String> {
     @Query(value = "SELECT u FROM Users u WHERE u.username = :userName")
     Optional<Users> findByUserName(@Param("userName") String userName);
 
+    @Query(value = "SELECT u FROM Users u WHERE u.id = :userId")
+    Optional<Users> findByUserId(@Param("userId") int id);
+
     @Query(value = "SELECT sd FROM StudentDetails sd WHERE sd.users.id = :id")
     Set<StudentDetails> findStudentDetailsById(@Param("id") int id);
 

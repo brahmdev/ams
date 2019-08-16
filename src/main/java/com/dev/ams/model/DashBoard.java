@@ -5,6 +5,7 @@ import java.util.List;
 public class DashBoard {
 
     private List<PieData> pieDataList;
+    private List<Standard> standardList;
 
     public DashBoard() {
     }
@@ -21,5 +22,12 @@ public class DashBoard {
         this.pieDataList = pieDataList;
     }
 
+    public List<Standard> getStandardList() {
+        return standardList;
+    }
+
+    public void setStandardList(List<Standard> standardList) {
+        this.standardList = standardList;
+    }
 
 }

@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,9 @@ public class Standard implements java.io.Serializable {
     private String code;
     private String name;
     private Integer fees;
+
+    @Transient
+    private String color;
 
     @JsonBackReference(value="standard-subjects")
     private Set<Subject> subjects = new HashSet<Subject>(0);
@@ -145,6 +149,14 @@ public class Standard implements java.io.Serializable {
         this.batchs = batchs;
     }
 
+    @Transient
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }
 
 

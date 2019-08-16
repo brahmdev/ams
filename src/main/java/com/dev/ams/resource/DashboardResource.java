@@ -35,7 +35,7 @@ public class DashboardResource {
         STANDARD_COLOR.put(2, "#9E7BFF");
         STANDARD_COLOR.put(3, "#852b99");
         STANDARD_COLOR.put(4, "#FF2800");
-        STANDARD_COLOR.put(5, "#ff6961");
+        STANDARD_COLOR.put(5, "#2d64cb");
         STANDARD_COLOR.put(6, "#7EF9FF");
         STANDARD_COLOR.put(7, "#0D98BA");
         STANDARD_COLOR.put(8, "#FCE205");
@@ -50,8 +50,10 @@ public class DashboardResource {
         Iterator iterator = standards.iterator();
         int count = 1;
         List<PieData> pieDataList = new ArrayList<>();
+        List<Standard> standardList = new ArrayList<>();
         while (iterator.hasNext()) {
             Standard standard = (Standard)iterator.next();
+            standard.setColor(STANDARD_COLOR.get(count));
             int studentCount = 0;
             PieData pieData = new PieData();
             pieData.setName(standard.getName());
@@ -63,10 +65,12 @@ public class DashboardResource {
             pieData.setStudentCount(studentCount);
             pieData.setColor(STANDARD_COLOR.get(count));
             pieDataList.add(pieData);
+            standardList.add(standard);
             count++;
         }
         DashBoard dashBoard = new DashBoard();
         dashBoard.setPieDataList(pieDataList);
+        dashBoard.setStandardList(standardList);
         return dashBoard;
     }
 }
